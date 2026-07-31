@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+// Il browser chiama sempre /api/..., lo stesso dominio del frontend.
+// È il server Next.js (vedi next.config.js) a inoltrare la richiesta
+// al backend vero: il browser non conosce mai l'indirizzo del backend.
+const API_URL = '/api';
 
 const LIVELLI_WANSPORT = ['C4', 'C3', 'C2', 'C1', 'B4', 'B3', 'B2', 'B1', 'A4', 'A3', 'A2', 'A1'];
 
@@ -11,7 +14,7 @@ function nuovaFasciaOraria() {
 }
 
 export default function Pagina() {
-  // --- dati anagrafici (usati solo alla primissima richiestaaa) ---
+  // --- dati anagrafici (usati solo alla primissima richiesta) ---
   const [nome, setNome] = useState('');
   const [cognome, setCognome] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
