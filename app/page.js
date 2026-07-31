@@ -11,7 +11,7 @@ function nuovaFasciaOraria() {
 }
 
 export default function Pagina() {
-  // --- dati anagrafici (usati solo alla primissima richiesta) ---
+  // --- dati anagrafici (usati solo alla primissima richiestaaa) ---
   const [nome, setNome] = useState('');
   const [cognome, setCognome] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
