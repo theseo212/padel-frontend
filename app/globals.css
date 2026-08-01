@@ -257,3 +257,33 @@ body {
   color: #888;
   margin-top: 6px;
 }
+
+.campo-con-prefisso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prefisso-whatsapp {
+  padding: 10px 12px;
+  background: #f0f2f5;
+  border: 1px solid #d5d7db;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  flex-shrink: 0;
+}
+
+.campo-con-prefisso input {
+  flex: 1;
+}
+
+.profilo-riconosciuto {
+  background: #d5f2df;
+  color: #1a7a3a;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 10px;
+}
