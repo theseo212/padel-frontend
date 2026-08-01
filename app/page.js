@@ -275,7 +275,12 @@ export default function Pagina() {
       <main className="pagina">
         <div className="intestazione">
           <h1>Verifica il tuo numero</h1>
-          <p>Ti abbiamo inviato un codice via WhatsApp al numero {PREFISSO_WHATSAPP} {whatsappLocale}.</p>
+          <p>
+            È la prima volta che utilizzi questo servizio: abbiamo bisogno di verificare il tuo
+            numero di telefono, quindi ti abbiamo inviato un codice su WhatsApp al numero{' '}
+            {PREFISSO_WHATSAPP} {whatsappLocale}, che ti chiediamo di scrivere qua sotto.
+            Tutte le prossime volte non sarà più necessario.
+          </p>
         </div>
         <form className="sezione" onSubmit={confermaOtp}>
           {errore && <p className="messaggio-errore">{errore}</p>}
