@@ -7,17 +7,39 @@ import { useState, useEffect } from 'react';
 // al backend vero: il browser non conosce mai l'indirizzo del backend.
 const API_URL = '/api';
 
+const PREFISSO_WHATSAPP = '+39';
+
 const LIVELLI_WANSPORT = ['C4', 'C3', 'C2', 'C1', 'B4', 'B3', 'B2', 'B1', 'A4', 'A3', 'A2', 'A1'];
 
+// Livelli Playtomic da 0 a 7, a intervalli di 0.25 (scelta a click invece
+// di digitazione libera, come per Wansport)
+function generaLivelliPlaytomic() {
+  const livelli = [];
+  for (let i = 0; i <= 28; i++) {
+    livelli.push((i * 0.25).toFixed(2));
+  }
+  return livelli;
+}
+const LIVELLI_PLAYTOMIC = generaLivelliPlaytomic();
+
+// Ore e minuti selezionabili per le fasce orarie (coerenti con la fascia
+// gestita dal sistema, 07:00-23:00, slot da 30 minuti - vedi app/config.py)
+const ORE_DISPONIBILI = Array.from({ length: 17 }, (_, i) => String(i + 7).padStart(2, '0')); // 07..23
+const MINUTI_DISPONIBILI = ['00', '30'];
+
+function soloNumeri(testo) {
+  return testo.replace(/\D/g, '');
+}
+
 function nuovaFasciaOraria() {
-  return { inizio: '18:00', fine: '20:00' };
+  return { oraInizio: '18', minutoInizio: '00', oraFine: '20', minutoFine: '00' };
 }
 
 export default function Pagina() {
-  // --- dati anagrafici (usati solo alla primissima richiesta) ---
+  // --- dati anagrafici (usati solo se l'utente NON viene riconosciuto) ---
   const [nome, setNome] = useState('');
   const [cognome, setCognome] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
+  const [whatsappLocale, setWhatsappLocale] = useState('');
   const [latoPreferito, setLatoPreferito] = useState('INDIFFERENTE');
   const [livelloScala, setLivelloScala] = useState('PLAYTOMIC');
   const [livelloValore, setLivelloValore] = useState('');
@@ -29,6 +51,10 @@ export default function Pagina() {
   const [circoli, setCircoli] = useState([]);
   const [circoliSelezionati, setCircoliSelezionati] = useState([]);
 
+  // --- riconoscimento utente esistente ---
+  const [profilo, setProfilo] = useState(null); // null = non ancora verificato / non trovato
+  const [caricandoProfilo, setCaricandoProfilo] = useState(false);
+
   // --- stato della UI ---
   const [schermata, setSchermata] = useState('form'); // form | otp | successo
   const [errore, setErrore] = useState(null);
@@ -36,12 +62,61 @@ export default function Pagina() {
   const [inviando, setInviando] = useState(false);
   const [codiceOtp, setCodiceOtp] = useState('');
 
+  const whatsappCompleto = PREFISSO_WHATSAPP + soloNumeri(whatsappLocale);
+
   useEffect(() => {
     fetch(`${API_URL}/circoli?solo_attivi=true`)
       .then((r) => r.json())
       .then((dati) => setCircoli(dati))
       .catch(() => setErrore('Non riesco a caricare la lista dei circoli. Riprova più tardi.'));
   }, []);
+
+  async function verificaNumeroConosciuto() {
+    const numeroPulito = soloNumeri(whatsappLocale);
+    if (numeroPulito.length < 9) {
+      setProfilo(null);
+      return;
+    }
+
+    setCaricandoProfilo(true);
+    try {
+      const risposta = await fetch(
+        `${API_URL}/utenti/profilo?whatsapp_numero=${encodeURIComponent(whatsappCompleto)}`
+      );
+      const dati = await risposta.json();
+
+      if (dati.esiste) {
+        setProfilo(dati);
+        setNome(dati.nome);
+        setCognome(dati.cognome);
+        setLatoPreferito(dati.lato_preferito);
+        if (dati.livello_dichiarato_scala === 'WANSPORT') {
+          setLivelloScala('WANSPORT');
+          setLivelloValore(dati.livello_dichiarato_originale);
+        } else {
+          setLivelloScala('PLAYTOMIC');
+          setLivelloValore(dati.livello_playtomic.toFixed(2));
+        }
+        if (dati.ultima_richiesta) {
+          setTipoPartita(dati.ultima_richiesta.tipo_partita);
+          setCircoliSelezionati(dati.ultima_richiesta.circoli_ids);
+        }
+      } else {
+        setProfilo(null);
+      }
+    } catch {
+      setProfilo(null);
+    } finally {
+      setCaricandoProfilo(false);
+    }
+  }
+
+  function gestisciModificaWhatsapp(valore) {
+    setWhatsappLocale(valore);
+    if (profilo) {
+      setProfilo(null);
+    }
+  }
 
   function aggiornaFasciaOraria(indice, campo, valore) {
     setFasceOrarie((precedenti) =>
@@ -64,34 +139,37 @@ export default function Pagina() {
   }
 
   function costruisciCorpoRichiesta() {
+    const fasceFormattate = fasceOrarie.map((f) => [
+      `${f.oraInizio}:${f.minutoInizio}`,
+      `${f.oraFine}:${f.minutoFine}`,
+    ]);
+
     return {
       nome,
       cognome,
-      whatsapp_numero: whatsapp,
+      whatsapp_numero: whatsappCompleto,
       livello_scala: livelloScala,
       livello_valore: livelloValore,
       lato_preferito: latoPreferito,
       tipo_partita: tipoPartita,
       giorno,
-      fasce_orarie: fasceOrarie.map((f) => [f.inizio, f.fine]),
+      fasce_orarie: fasceFormattate,
       circoli_ids: circoliSelezionati,
     };
   }
 
   function validaForm() {
-    if (!nome.trim() || !cognome.trim()) return 'Inserisci nome e cognome.';
-    if (!whatsapp.trim()) return 'Inserisci il tuo numero WhatsApp (formato internazionale, es. +39...).';
-    if (!livelloValore.trim()) return 'Inserisci il tuo livello di gioco.';
-    if (livelloScala === 'PLAYTOMIC') {
-      const valoreNumerico = parseFloat(livelloValore);
-      if (isNaN(valoreNumerico) || valoreNumerico < 0 || valoreNumerico > 7) {
-        return 'Il livello Playtomic deve essere un numero da 0 a 7 (es. 3.5).';
-      }
+    if (!profilo) {
+      if (!nome.trim() || !cognome.trim()) return 'Inserisci nome e cognome.';
+      if (!livelloValore) return 'Scegli il tuo livello di gioco.';
     }
+    if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
     if (!giorno) return 'Scegli il giorno in cui vuoi giocare.';
     if (fasceOrarie.length === 0) return 'Inserisci almeno una fascia oraria.';
     for (const f of fasceOrarie) {
-      if (f.fine <= f.inizio) return 'In ogni fascia oraria, l\'orario di fine deve essere dopo quello di inizio.';
+      const inizio = `${f.oraInizio}:${f.minutoInizio}`;
+      const fine = `${f.oraFine}:${f.minutoFine}`;
+      if (fine <= inizio) return 'In ogni fascia oraria, l\'orario di fine deve essere dopo quello di inizio.';
     }
     if (circoliSelezionati.length === 0) return 'Scegli almeno un circolo.';
     return null;
@@ -163,7 +241,7 @@ export default function Pagina() {
       const risposta = await fetch(`${API_URL}/richieste/valida-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ whatsapp_numero: whatsapp, codice_otp: codiceOtp }),
+        body: JSON.stringify({ whatsapp_numero: whatsappCompleto, codice_otp: codiceOtp }),
       });
       const dati = await risposta.json();
 
@@ -197,7 +275,7 @@ export default function Pagina() {
       <main className="pagina">
         <div className="intestazione">
           <h1>Verifica il tuo numero</h1>
-          <p>Ti abbiamo inviato un codice via WhatsApp al numero {whatsapp}.</p>
+          <p>Ti abbiamo inviato un codice via WhatsApp al numero {PREFISSO_WHATSAPP} {whatsappLocale}.</p>
         </div>
         <form className="sezione" onSubmit={confermaOtp}>
           {errore && <p className="messaggio-errore">{errore}</p>}
@@ -251,82 +329,101 @@ export default function Pagina() {
 
       <form onSubmit={inviaRichiesta}>
         <section className="sezione">
-          <h2>I tuoi dati</h2>
+          <h2>Il tuo numero WhatsApp</h2>
           <div className="campo">
-            <label htmlFor="nome">Nome</label>
-            <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
-          </div>
-          <div className="campo">
-            <label htmlFor="cognome">Cognome</label>
-            <input id="cognome" type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} />
-          </div>
-          <div className="campo">
-            <label htmlFor="whatsapp">Numero WhatsApp</label>
-            <input
-              id="whatsapp"
-              type="tel"
-              placeholder="+39 333 1234567"
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-            />
+            <label htmlFor="whatsapp">Numero di telefono</label>
+            <div className="campo-con-prefisso">
+              <span className="prefisso-whatsapp">{PREFISSO_WHATSAPP}</span>
+              <input
+                id="whatsapp"
+                type="tel"
+                placeholder="333 1234567"
+                value={whatsappLocale}
+                onChange={(e) => gestisciModificaWhatsapp(e.target.value)}
+                onBlur={verificaNumeroConosciuto}
+              />
+            </div>
             <p className="testo-piccolo">Usato per inviarti conferme e proposte di partita.</p>
-          </div>
 
-          <div className="campo">
-            <label>Il tuo livello di gioco</label>
-            <div className="gruppo-scelte" style={{ marginBottom: 10 }}>
-              <div className="scelta-opzione">
-                <input
-                  type="radio"
-                  id="scala-playtomic"
-                  checked={livelloScala === 'PLAYTOMIC'}
-                  onChange={() => { setLivelloScala('PLAYTOMIC'); setLivelloValore(''); }}
-                />
-                <label htmlFor="scala-playtomic">Playtomic</label>
-              </div>
-              <div className="scelta-opzione">
-                <input
-                  type="radio"
-                  id="scala-wansport"
-                  checked={livelloScala === 'WANSPORT'}
-                  onChange={() => { setLivelloScala('WANSPORT'); setLivelloValore(''); }}
-                />
-                <label htmlFor="scala-wansport">Wansport</label>
-              </div>
+            {caricandoProfilo && <p className="testo-piccolo">Verifico se ti conosciamo già…</p>}
+
+            {profilo && (
+              <p className="profilo-riconosciuto">
+                ߑ Bentornato/a {profilo.nome} {profilo.cognome}! Non serve reinserire i tuoi dati:
+                pensiamo a tutto noi.
+              </p>
+            )}
+          </div>
+        </section>
+
+        {!profilo && (
+          <section className="sezione">
+            <h2>I tuoi dati</h2>
+            <div className="campo">
+              <label htmlFor="nome">Nome</label>
+              <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
+            </div>
+            <div className="campo">
+              <label htmlFor="cognome">Cognome</label>
+              <input id="cognome" type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} />
             </div>
 
-            {livelloScala === 'PLAYTOMIC' ? (
-              <>
-                <input
-                  type="number"
-                  step="0.25"
-                  min="0"
-                  max="7"
-                  placeholder="Es. 3.5"
-                  value={livelloValore}
-                  onChange={(e) => setLivelloValore(e.target.value)}
-                />
-                <p className="testo-piccolo">Inserisci un numero da 0 a 7 (es. 3.5).</p>
-              </>
-            ) : (
-              <>
-                <select value={livelloValore} onChange={(e) => setLivelloValore(e.target.value)}>
-                  <option value="">Scegli il tuo livello…</option>
-                  {LIVELLI_WANSPORT.map((l) => (
-                    <option key={l} value={l}>{l}</option>
-                  ))}
-                </select>
-                <p className="testo-piccolo">Da C4 (livello base) ad A1 (livello più alto).</p>
-              </>
-            )}
-            <p className="testo-piccolo">
-              Attenzione: questo livello verrà registrato una sola volta e non sarà più modificabile
-              da qui in poi (cambierà solo in base alle valutazioni ricevute dopo le partite).
-            </p>
-          </div>
+            <div className="campo">
+              <label>Il tuo livello di gioco</label>
+              <div className="gruppo-scelte" style={{ marginBottom: 10 }}>
+                <div className="scelta-opzione">
+                  <input
+                    type="radio"
+                    id="scala-playtomic"
+                    checked={livelloScala === 'PLAYTOMIC'}
+                    onChange={() => { setLivelloScala('PLAYTOMIC'); setLivelloValore(''); }}
+                  />
+                  <label htmlFor="scala-playtomic">Playtomic</label>
+                </div>
+                <div className="scelta-opzione">
+                  <input
+                    type="radio"
+                    id="scala-wansport"
+                    checked={livelloScala === 'WANSPORT'}
+                    onChange={() => { setLivelloScala('WANSPORT'); setLivelloValore(''); }}
+                  />
+                  <label htmlFor="scala-wansport">Wansport</label>
+                </div>
+              </div>
 
+              {livelloScala === 'PLAYTOMIC' ? (
+                <>
+                  <select value={livelloValore} onChange={(e) => setLivelloValore(e.target.value)}>
+                    <option value="">Scegli il tuo livello…</option>
+                    {LIVELLI_PLAYTOMIC.map((l) => (
+                      <option key={l} value={l}>{l}</option>
+                    ))}
+                  </select>
+                  <p className="testo-piccolo">Da 0.00 a 7.00.</p>
+                </>
+              ) : (
+                <>
+                  <select value={livelloValore} onChange={(e) => setLivelloValore(e.target.value)}>
+                    <option value="">Scegli il tuo livello…</option>
+                    {LIVELLI_WANSPORT.map((l) => (
+                      <option key={l} value={l}>{l}</option>
+                    ))}
+                  </select>
+                  <p className="testo-piccolo">Da C4 (livello base) ad A1 (livello più alto).</p>
+                </>
+              )}
+              <p className="testo-piccolo">
+                Attenzione: questo livello verrà registrato una sola volta e non sarà più modificabile
+                da qui in poi (cambierà solo in base alle valutazioni ricevute dopo le partite).
+              </p>
+            </div>
+          </section>
+        )}
+
+        <section className="sezione">
+          <h2>Il tuo lato di gioco</h2>
           <div className="campo">
-            <label>Lato di gioco preferito</label>
+            <label>Lato preferito</label>
             <div className="gruppo-scelte">
               {[
                 { valore: 'DX', etichetta: 'Destra' },
@@ -344,6 +441,13 @@ export default function Pagina() {
                 </div>
               ))}
             </div>
+            <p className="testo-piccolo">(con INDIFFERENTE hai più probabilità di giocare)</p>
+            {profilo && (
+              <p className="testo-piccolo">
+                Questa è la tua preferenza attuale: puoi cambiarla in qualsiasi momento, anche dopo
+                allenamenti o esperienza in campo.
+              </p>
+            )}
           </div>
         </section>
 
@@ -381,19 +485,21 @@ export default function Pagina() {
             <label>Fasce orarie in cui puoi giocare</label>
             {fasceOrarie.map((fascia, indice) => (
               <div className="fascia-oraria-riga" key={indice}>
-                <input
-                  type="time"
-                  step="1800"
-                  value={fascia.inizio}
-                  onChange={(e) => aggiornaFasciaOraria(indice, 'inizio', e.target.value)}
-                />
+                <select value={fascia.oraInizio} onChange={(e) => aggiornaFasciaOraria(indice, 'oraInizio', e.target.value)}>
+                  {ORE_DISPONIBILI.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+                <span>:</span>
+                <select value={fascia.minutoInizio} onChange={(e) => aggiornaFasciaOraria(indice, 'minutoInizio', e.target.value)}>
+                  {MINUTI_DISPONIBILI.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
                 <span>—</span>
-                <input
-                  type="time"
-                  step="1800"
-                  value={fascia.fine}
-                  onChange={(e) => aggiornaFasciaOraria(indice, 'fine', e.target.value)}
-                />
+                <select value={fascia.oraFine} onChange={(e) => aggiornaFasciaOraria(indice, 'oraFine', e.target.value)}>
+                  {ORE_DISPONIBILI.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+                <span>:</span>
+                <select value={fascia.minutoFine} onChange={(e) => aggiornaFasciaOraria(indice, 'minutoFine', e.target.value)}>
+                  {MINUTI_DISPONIBILI.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
                 {fasceOrarie.length > 1 && (
                   <button type="button" className="bottone-rimuovi" onClick={() => rimuoviFasciaOraria(indice)}>
                     Rimuovi
@@ -409,6 +515,11 @@ export default function Pagina() {
 
         <section className="sezione">
           <h2>Circoli in cui puoi giocare</h2>
+          {profilo && profilo.ultima_richiesta && (
+            <p className="testo-piccolo">
+              Abbiamo già selezionato i circoli della tua ultima richiesta: puoi togliere o aggiungere quelli che vuoi.
+            </p>
+          )}
           <div className="lista-circoli">
             {circoli.length === 0 && <p style={{ padding: 12, color: '#888' }}>Caricamento circoli…</p>}
             {circoli.map((c) => (
