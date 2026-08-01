@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-// DIAGNOSTICA TEMPORANEA: stampa nei log del server (non nel browser)
+// DIAGNOSTICA TEMPORANEAAA: stampa nei log del server (non nel browser)
 // i nomi delle variabili d'ambiente disponibili, per capire se
 // PADEL_BACKEND_URL arriva davvero dentro il container.
 console.log('=== DIAGNOSTICA FRONTEND: variabili d\'ambiente disponibili ===');
