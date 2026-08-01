@@ -50,6 +50,8 @@ export default function Pagina() {
   const [fasceOrarie, setFasceOrarie] = useState([nuovaFasciaOraria()]);
   const [circoli, setCircoli] = useState([]);
   const [circoliSelezionati, setCircoliSelezionati] = useState([]);
+  const [filtroTesto, setFiltroTesto] = useState('');
+  const [filtroProvincia, setFiltroProvincia] = useState('');
 
   // --- riconoscimento utente esistente ---
   const [profilo, setProfilo] = useState(null); // null = non ancora verificato / non trovato
@@ -70,6 +72,17 @@ export default function Pagina() {
       .then((dati) => setCircoli(dati))
       .catch(() => setErrore('Non riesco a caricare la lista dei circoli. Riprova più tardi.'));
   }, []);
+
+  // Province disponibili, calcolate dai circoli caricati (nessuna chiamata extra)
+  const province = [...new Set(circoli.map((c) => c.provincia).filter(Boolean))].sort();
+
+  // Filtro combinato: ricerca testuale (nome o indirizzo) + provincia selezionata
+  const circoliFiltrati = circoli.filter((c) => {
+    const passaProvincia = !filtroProvincia || c.provincia === filtroProvincia;
+    const testoRicerca = filtroTesto.trim().toLowerCase();
+    const passaTesto = !testoRicerca || `${c.nome} ${c.indirizzo || ''}`.toLowerCase().includes(testoRicerca);
+    return passaProvincia && passaTesto;
+  });
 
   async function verificaNumeroConosciuto() {
     const numeroPulito = soloNumeri(whatsappLocale);
@@ -525,9 +538,29 @@ export default function Pagina() {
               Abbiamo già selezionato i circoli della tua ultima richiesta: puoi togliere o aggiungere quelli che vuoi.
             </p>
           )}
+
+          <div className="filtri-circoli">
+            <input
+              type="text"
+              className="ricerca-circoli"
+              placeholder="Cerca per nome o indirizzo…"
+              value={filtroTesto}
+              onChange={(e) => setFiltroTesto(e.target.value)}
+            />
+            {province.length > 0 && (
+              <select value={filtroProvincia} onChange={(e) => setFiltroProvincia(e.target.value)}>
+                <option value="">Tutte le province</option>
+                {province.map((p) => <option key={p} value={p}>{p}</option>)}
+              </select>
+            )}
+          </div>
+
           <div className="lista-circoli">
             {circoli.length === 0 && <p style={{ padding: 12, color: '#888' }}>Caricamento circoli…</p>}
-            {circoli.map((c) => (
+            {circoli.length > 0 && circoliFiltrati.length === 0 && (
+              <p style={{ padding: 12, color: '#888' }}>Nessun circolo trovato con questi filtri.</p>
+            )}
+            {circoliFiltrati.map((c) => (
               <label className="circolo-riga" key={c.id} htmlFor={`circolo-${c.id}`}>
                 <input
                   type="checkbox"
@@ -538,6 +571,7 @@ export default function Pagina() {
                 <span>
                   <span className="circolo-nome">{c.nome}</span>
                   {c.indirizzo && <span className="circolo-indirizzo"> — {c.indirizzo}</span>}
+                  {c.provincia && <span className="circolo-provincia"> ({c.provincia})</span>}
                 </span>
               </label>
             ))}
