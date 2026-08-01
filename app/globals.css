@@ -158,6 +158,34 @@ body {
   font-size: 13px;
 }
 
+.circolo-provincia {
+  color: #999;
+  font-size: 12px;
+}
+
+.filtri-circoli {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.filtri-circoli input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid #d5d7db;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filtri-circoli select {
+  padding: 9px 10px;
+  border: 1px solid #d5d7db;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  max-width: 140px;
+}
+
 .fascia-oraria-riga {
   display: flex;
   gap: 10px;
