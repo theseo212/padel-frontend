@@ -1,23 +1,24 @@
 /** @type {import('next').NextConfig} */
 
-// DIAGNOSTICA TEMPORANEAAA: stampa nei log del server (non nel browser)
-// i nomi delle variabili d'ambiente disponibili, per capire se
-// PADEL_BACKEND_URL arriva davvero dentro il container.
+// NOTA IMPORTANTE: per un problema non ancora chiarito sul lato Railway
+// (la variabile d'ambiente non arriva al container di questo servizio,
+// nonostante risulti salvata correttamente nell'interfaccia - verificato
+// sia nei log di avvio sia nella Console diretta del container), usiamo
+// temporaneamente l'indirizzo del backend scritto qui come valore fisso.
+// Se in futuro il problema di Railway si risolve, si può tornare a
+// leggerlo da process.env.PADEL_BACKEND_URL (il codice lo prova comunque
+// per primo, quindi basterà che la variabile inizi a funzionare).
+const BACKEND_URL_DI_RISERVA = 'https://web-production-3d15f.up.railway.app';
+
 console.log('=== DIAGNOSTICA FRONTEND: variabili d\'ambiente disponibili ===');
-console.log('PADEL_BACKEND_URL vale:', process.env.PADEL_BACKEND_URL || '(NON IMPOSTATA)');
-console.log('Nomi di tutte le variabili presenti:', Object.keys(process.env).sort());
+console.log('PADEL_BACKEND_URL vale:', process.env.PADEL_BACKEND_URL || '(NON IMPOSTATA, uso il valore di riserva)');
 console.log('=== FINE DIAGNOSTICA ===');
 
 const nextConfig = {
   reactStrictMode: true,
 
-  // Il browser chiama sempre /api/... (stesso dominio del frontend).
-  // È il server Next.js, non il browser, a inoltrare la richiesta al
-  // backend vero, leggendo l'indirizzo da PADEL_BACKEND_URL (variabile
-  // "normale", letta ad ogni richiesta quando il server gira - niente
-  // più problemi di variabili "congelate" al momento della build).
   async rewrites() {
-    const backendUrl = process.env.PADEL_BACKEND_URL || 'http://127.0.0.1:8000';
+    const backendUrl = process.env.PADEL_BACKEND_URL || BACKEND_URL_DI_RISERVA;
     return [
       {
         source: '/api/:path*',
