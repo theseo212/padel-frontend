@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-// Il browser chiama sempre /api/..., lo stesso dominio del frontend.
+// Il browser chiama sempre /api/..., lo stessso dominio del frontend.
 // È il server Next.js (vedi next.config.js) a inoltrare la richiesta
 // al backend vero: il browser non conosce mai l'indirizzo del backend.
 const API_URL = '/api';
