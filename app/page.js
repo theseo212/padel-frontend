@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-// Il browser chiama sempre /api/..., lo stessso dominio del frontend.
+// Il browser chiama sempre /api/..., lo stesso dominio del frontend.
 // È il server Next.js (vedi next.config.js) a inoltrare la richiesta
 // al backend vero: il browser non conosce mai l'indirizzo del backend.
 const API_URL = '/api';
@@ -290,10 +290,10 @@ export default function Pagina() {
               il giorno <strong>{giornoLeggibile}</strong>, dalle <strong>{fasceLeggibili}</strong>,
               nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
             </p>
-            <p>Riceverai anche su WhatsApp una conferma con questo stesso riepilogo.</p>
+            <p>Ti manderò anche su WhatsApp una conferma con questo stesso riepilogo.</p>
             <p>
-              Verrai avvisato su WhatsApp appena si formerà la partita e, in ogni caso, un'ora prima
-              dell'inizio della tua fascia di disponibilità ti aggiorneremo sulla situazione.
+              Ti avviserò su WhatsApp appena si formerà la partita e, in ogni caso, un'ora prima
+              dell'inizio della tua fascia di disponibilità ti aggiornerò sulla situazione.
             </p>
           </div>
         </div>
@@ -307,9 +307,9 @@ export default function Pagina() {
         <div className="intestazione">
           <h1>Verifica il tuo numero</h1>
           <p>
-            È la prima volta che utilizzi questo servizio: abbiamo bisogno di verificare il tuo
-            numero di telefono, quindi ti abbiamo inviato un codice su WhatsApp al numero{' '}
-            {PREFISSO_WHATSAPP} {whatsappLocale}, che ti chiediamo di scrivere qua sotto.
+            È la prima volta che utilizzi AnnaPadel: ho bisogno di verificare il tuo
+            numero di telefono, quindi ti ho inviato un codice su WhatsApp al numero{' '}
+            {PREFISSO_WHATSAPP} {whatsappLocale}, che ti chiedo di scrivere qua sotto.
             Tutte le prossime volte non sarà più necessario.
           </p>
         </div>
@@ -338,8 +338,8 @@ export default function Pagina() {
   return (
     <main className="pagina">
       <div className="intestazione">
-        <h1>Trova la tua prossima partita di padel</h1>
-        <p>Inserisci la tua disponibilità: ti avviseremo su WhatsApp appena troveremo 3 compagni compatibili con te.</p>
+        <h1>ߎ AnnaPadel</h1>
+        <p>Ciao, sono Anna! Inserisci la tua disponibilità e ti troverò 3 compagni compatibili con te, avvisandoti su WhatsApp.</p>
       </div>
 
       {errore && <p className="messaggio-errore">{errore}</p>}
@@ -381,12 +381,12 @@ export default function Pagina() {
             </div>
             <p className="testo-piccolo">Usato per inviarti conferme e proposte di partita.</p>
 
-            {caricandoProfilo && <p className="testo-piccolo">Verifico se ti conosciamo già…</p>}
+            {caricandoProfilo && <p className="testo-piccolo">Verifico se ti conosco già…</p>}
 
             {profilo && (
               <p className="profilo-riconosciuto">
                 ߑ Bentornato/a {profilo.nome} {profilo.cognome}! Non serve reinserire i tuoi dati:
-                pensiamo a tutto noi.
+                ci penso io a tutto.
               </p>
             )}
           </div>
