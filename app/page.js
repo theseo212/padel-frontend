@@ -271,13 +271,31 @@ export default function Pagina() {
   }
 
   if (schermata === 'successo') {
+    const nomiCircoliScelti = circoli.filter((c) => circoliSelezionati.includes(c.id)).map((c) => c.nome);
+    const tipoPartitaLabel = { MASCHILE: 'maschile', FEMMINILE: 'femminile', MISTA: 'mista' }[tipoPartita] || tipoPartita;
+    const fasceLeggibili = fasceOrarie
+      .map((f) => `${f.oraInizio}:${f.minutoInizio}-${f.oraFine}:${f.minutoFine}`)
+      .join(', ');
+    const giornoLeggibile = giorno
+      ? new Date(`${giorno}T00:00:00`).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      : giorno;
+
     return (
       <main className="pagina">
         <div className="sezione">
-          <p className="messaggio-successo">
-            ✅ Fatto! Riceverai una conferma su WhatsApp con il riepilogo della tua richiesta.
-            Ti avviseremo appena troveremo compagni compatibili con te.
-          </p>
+          <p className="messaggio-successo">✅ Richiesta inviata con successo!</p>
+          <div className="riepilogo-richiesta">
+            <p>
+              Hai correttamente inserito una richiesta per giocare una partita <strong>{tipoPartitaLabel}</strong>{' '}
+              il giorno <strong>{giornoLeggibile}</strong>, dalle <strong>{fasceLeggibili}</strong>,
+              nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
+            </p>
+            <p>Riceverai anche su WhatsApp una conferma con questo stesso riepilogo.</p>
+            <p>
+              Verrai avvisato su WhatsApp appena si formerà la partita e, in ogni caso, un'ora prima
+              dell'inizio della tua fascia di disponibilità ti aggiorneremo sulla situazione.
+            </p>
+          </div>
         </div>
       </main>
     );
