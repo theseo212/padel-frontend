@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Prenota la tua partita di padel',
+  title: 'AnnaPadel - Trova la tua prossima partita',
   description: 'Inserisci la tua disponibilità e trova compagni di gioco compatibili nella tua zona.',
 };
 
