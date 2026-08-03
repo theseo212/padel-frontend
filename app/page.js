@@ -50,6 +50,8 @@ export default function Pagina() {
   const [fasceOrarie, setFasceOrarie] = useState([nuovaFasciaOraria()]);
   const [circoli, setCircoli] = useState([]);
   const [circoliSelezionati, setCircoliSelezionati] = useState([]);
+  const [accettaTermini, setAccettaTermini] = useState(false);
+  const [accettaPrivacy, setAccettaPrivacy] = useState(false);
   const [filtroTesto, setFiltroTesto] = useState('');
   const [filtroProvincia, setFiltroProvincia] = useState('');
 
@@ -168,6 +170,8 @@ export default function Pagina() {
       giorno,
       fasce_orarie: fasceFormattate,
       circoli_ids: circoliSelezionati,
+      accetta_termini: accettaTermini,
+      accetta_privacy: accettaPrivacy,
     };
   }
 
@@ -175,6 +179,9 @@ export default function Pagina() {
     if (!profilo) {
       if (!nome.trim() || !cognome.trim()) return 'Inserisci nome e cognome.';
       if (!livelloValore) return 'Scegli il tuo livello di gioco.';
+      if (!accettaTermini || !accettaPrivacy) {
+        return 'Devi accettare i Termini e Condizioni e la Privacy Policy per continuare.';
+      }
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
     if (!giorno) return 'Scegli il giorno in cui vuoi giocare.';
@@ -595,6 +602,27 @@ export default function Pagina() {
             ))}
           </div>
         </section>
+
+        {!profilo && (
+          <div className="accettazione-legale">
+            <label>
+              <input
+                type="checkbox"
+                checked={accettaTermini}
+                onChange={(e) => setAccettaTermini(e.target.checked)}
+              />
+              {' '}Accetto i <a href="/termini" target="_blank" rel="noopener noreferrer">Termini e Condizioni</a>
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={accettaPrivacy}
+                onChange={(e) => setAccettaPrivacy(e.target.checked)}
+              />
+              {' '}Accetto la <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            </label>
+          </div>
+        )}
 
         <button className="bottone-primario" type="submit" disabled={inviando}>
           {inviando ? 'Invio in corso…' : 'Invia la mia disponibilità'}
