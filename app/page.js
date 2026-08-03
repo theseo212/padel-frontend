@@ -286,6 +286,7 @@ export default function Pagina() {
     const giornoLeggibile = giorno
       ? new Date(`${giorno}T00:00:00`).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
       : giorno;
+    const latoLabel = { DX: 'destra', SX: 'sinistra', INDIFFERENTE: 'indifferente' }[latoPreferito] || latoPreferito;
 
     return (
       <main className="pagina">
@@ -295,7 +296,7 @@ export default function Pagina() {
             <p>
               Hai correttamente inserito una richiesta per giocare una partita <strong>{tipoPartitaLabel}</strong>{' '}
               il giorno <strong>{giornoLeggibile}</strong>, dalle <strong>{fasceLeggibili}</strong>,
-              nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
+              lato <strong>{latoLabel}</strong>, nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
             </p>
             <p>Ti manderò anche su WhatsApp una conferma con questo stesso riepilogo.</p>
             <p>
