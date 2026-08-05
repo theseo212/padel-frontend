@@ -7,6 +7,7 @@ const API_URL = '/api';
 export default function Contatti() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [messaggio, setMessaggio] = useState('');
   const [inviando, setInviando] = useState(false);
   const [inviato, setInviato] = useState(false);
@@ -16,7 +17,7 @@ export default function Contatti() {
     evento.preventDefault();
     setErrore(null);
 
-    if (!nome.trim() || !email.trim() || !messaggio.trim()) {
+    if (!nome.trim() || !email.trim() || !telefono.trim() || !messaggio.trim()) {
       setErrore('Compila tutti i campi prima di inviare.');
       return;
     }
@@ -26,7 +27,7 @@ export default function Contatti() {
       const risposta = await fetch(`${API_URL}/contatti`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, messaggio }),
+        body: JSON.stringify({ nome, email, telefono, messaggio }),
       });
 
       const dati = await risposta.json();
@@ -73,6 +74,10 @@ export default function Contatti() {
           <label htmlFor="email">La tua email</label>
           <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <p className="testo-piccolo">Ti risponderemo direttamente a questo indirizzo.</p>
+        </div>
+        <div className="campo">
+          <label htmlFor="telefono">Numero di telefono</label>
+          <input id="telefono" type="tel" placeholder="333 1234567" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
         </div>
         <div className="campo">
           <label htmlFor="messaggio">Messaggio</label>
