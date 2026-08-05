@@ -346,7 +346,7 @@ export default function Pagina() {
   return (
     <main className="pagina">
       <div className="intestazione">
-        <h1>ߎ AnnaPadel</h1>
+        <h1>🎾 AnnaPadel</h1>
         <p>Ciao, sono Anna! Inserisci la tua disponibilità e ti troverò 3 compagni compatibili con te, avvisandoti su WhatsApp.</p>
       </div>
 
@@ -393,7 +393,7 @@ export default function Pagina() {
 
             {profilo && (
               <p className="profilo-riconosciuto">
-                ߑ Bentornato/a {profilo.nome} {profilo.cognome}! Non serve reinserire i tuoi dati:
+                👋 Bentornato/a {profilo.nome} {profilo.cognome}! Non serve reinserire i tuoi dati:
                 ci penso io a tutto.
               </p>
             )}
@@ -596,7 +596,20 @@ export default function Pagina() {
                 />
                 <span>
                   <span className="circolo-nome">{c.nome}</span>
-                  {c.indirizzo && <span className="circolo-indirizzo"> — {c.indirizzo}</span>}
+                  {c.indirizzo && (
+                    c.gmaps_url ? (
+                      <a
+                        href={c.gmaps_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="circolo-indirizzo-link"
+                      >
+                        {' '}— {c.indirizzo}
+                      </a>
+                    ) : (
+                      <span className="circolo-indirizzo"> — {c.indirizzo}</span>
+                    )
+                  )}
                   {c.provincia && <span className="circolo-provincia"> ({c.provincia})</span>}
                 </span>
               </label>
