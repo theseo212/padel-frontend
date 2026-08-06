@@ -598,14 +598,17 @@ export default function Pagina() {
                   <span className="circolo-nome">{c.nome}</span>
                   {c.indirizzo && (
                     c.gmaps_url ? (
-                      <a
-                        href={c.gmaps_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="circolo-indirizzo-link"
-                      >
-                        {' '}— {c.indirizzo}
-                      </a>
+                      <>
+                        {' — '}
+                        <a
+                          href={c.gmaps_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="circolo-indirizzo-link"
+                        >
+                          {c.indirizzo}
+                        </a>
+                      </>
                     ) : (
                       <span className="circolo-indirizzo"> — {c.indirizzo}</span>
                     )
