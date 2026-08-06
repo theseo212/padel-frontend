@@ -16,7 +16,21 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <nav className="nav-sito">
+          <a href="/" className="nav-logo">🎾 AnnaPadel</a>
+          <div className="nav-link-gruppo">
+            <a href="/faq">FAQ</a>
+            <a href="/contatti">Contatti</a>
+          </div>
+        </nav>
+
+        {children}
+
+        <footer className="footer-sito">
+          © 2026 AnnaPadel. Tutti i diritti riservati.
+        </footer>
+      </body>
     </html>
   );
 }

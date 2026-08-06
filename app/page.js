@@ -350,7 +350,7 @@ export default function Pagina() {
           <div className="hero-testo">
             <h1 className="hero-titolo">Anna</h1>
             <p className="hero-sottotitolo">La tua segretaria personale per il padel</p>
-            <p className="hero-tagline">Tu dimmi quando puoi giocare. Al resto ci pensa Anna.</p>
+            <p className="hero-tagline">Tu indica quando puoi giocare. Al resto ci pensa Anna.</p>
             <button
               className="hero-cta"
               onClick={() => document.getElementById('form-disponibilita')?.scrollIntoView({ behavior: 'smooth' })}
