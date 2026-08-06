@@ -6,6 +6,7 @@ export default function TerminiECondizioni() {
   return (
     <main className="pagina">
       <div className="intestazione">
+        <img src="/anna-avatar.png" alt="Anna" className="avatar-pagina" />
         <h1>Termini e Condizioni</h1>
       </div>
       <div className="sezione">
