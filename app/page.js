@@ -344,7 +344,34 @@ export default function Pagina() {
   }
 
   return (
-    <main className="pagina">
+    <>
+      <section className="hero-anna">
+        <div className="hero-contenuto">
+          <div className="hero-testo">
+            <h1 className="hero-titolo">Anna</h1>
+            <p className="hero-sottotitolo">La tua segretaria personale per il padel</p>
+            <p className="hero-tagline">Tu dimmi quando puoi giocare. Al resto ci pensa Anna.</p>
+            <button
+              className="hero-cta"
+              onClick={() => document.getElementById('form-disponibilita')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Trova la tua partita ↓
+            </button>
+          </div>
+          <div className="hero-immagine-contenitore">
+            <div className="fumetto-css">
+              Ciao, sono Anna! Dimmi quando puoi giocare…<br />al resto penso io!
+            </div>
+            <img
+              src="/anna-scrivania.png"
+              alt="Anna, la tua segretaria personale per il padel"
+              className="hero-immagine"
+            />
+          </div>
+        </div>
+      </section>
+
+      <main className="pagina" id="form-disponibilita">
       <div className="intestazione">
         <h1>🎾 AnnaPadel</h1>
         <p>Ciao, sono Anna! Inserisci la tua disponibilità e ti troverò 3 compagni compatibili con te, avvisandoti su WhatsApp.</p>
@@ -645,6 +672,7 @@ export default function Pagina() {
           {inviando ? 'Invio in corso…' : 'Invia la mia disponibilità'}
         </button>
       </form>
-    </main>
+      </main>
+    </>
   );
 }
