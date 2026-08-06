@@ -1,4 +1,4 @@
-export const metadata = {
+﻿export const metadata = {
   title: 'Domande frequenti - AnnaPadel',
 };
 
@@ -9,15 +9,19 @@ const FAQ = [
   },
   {
     domanda: 'Il servizio è gratuito?',
-    risposta: 'Sì, l\'uso di AnnaPadel è gratuito. Paghi solo il campo, direttamente al circolo, come fai già oggi.',
+    risposta: 'Sì, l\'uso di AnnaPadel è completamente gratuito. Paghi solo il campo, direttamente al circolo, come fai già oggi.',
   },
   {
     domanda: 'Come vengono scelti i miei compagni di partita?',
-    risposta: 'In base al tuo livello di gioco, agli orari in comune, al circolo scelto e al lato preferito (destra, sinistra o indifferente) — cercando la combinazione più equilibrata possibile tra i giocatori disponibili.',
+    risposta: 'In base al tuo livello di gioco, agli orari in comune, al circolo scelto e al lato preferito (destra, sinistra o indifferente), il mio algoritmo cerca la combinazione più equilibrata possibile tra i giocatori disponibili.',
   },
   {
     domanda: 'Cosa succede se qualcuno del gruppo non conferma in tempo?',
     risposta: 'Hai 15 minuti per confermare ogni proposta. Se qualcuno rifiuta o non risponde in tempo, gli altri tornano automaticamente in ricerca, senza nessuna penalità per chi aveva già confermato.',
+  },
+    {
+    domanda: 'Come si fa ad inserire un nuovo circolo dove poter giocare?',
+    risposta: 'Scrivimi tramite il modulo dei contatti e ti spiegherò come procedere.',
   },
   {
     domanda: 'Devo pagare il campo tramite il sito?',
@@ -27,9 +31,17 @@ const FAQ = [
     domanda: 'Posso cambiare la mia disponibilità dopo averla inviata?',
     risposta: 'Sì. Se invii una nuova richiesta per lo stesso giorno, ti verrà chiesto se vuoi mantenere quella precedente o sostituirla con quella nuova.',
   },
+    {
+    domanda: 'Posso inviare più richieste per lo stesso giorno?',
+    risposta: 'No, si può inviare una sola richiesta al giorno.',
+  },
   {
     domanda: 'Il mio livello di gioco può cambiare nel tempo?',
-    risposta: 'Sì, ma non lo modifichi tu manualmente: si aggiorna automaticamente in base alle valutazioni che ricevi dai tuoi compagni dopo le partite giocate.',
+    risposta: 'Sì, ma non lo modifichi tu manualmente: si aggiorna automaticamente in base alle valutazioni che ricevi dai tuoi compagni dopo le partite giocate mediate dal mio algoritmo.',
+  },
+    {
+    domanda: 'Il mio livello di gioco non è corretto, come posso modificarlo?',
+    risposta: 'Scrivimi tramite il modulo dei contatti e analizzeremo la situazione insieme.',
   },
   {
     domanda: 'I miei dati sono al sicuro?',
