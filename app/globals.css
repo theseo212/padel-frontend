@@ -306,6 +306,7 @@ body {
   .hero-testo { text-align: center; }
   .hero-cta { width: 100%; }
   .hero-immagine-contenitore { max-width: 100%; }
+  .hero-contenuto { gap: 6px; }
 }
 
 .circolo-indirizzo {

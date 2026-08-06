@@ -370,7 +370,16 @@ export default function Pagina() {
 
       <main className="pagina" id="form-disponibilita">
       <div className="intestazione">
-        <h1>🎾 AnnaPadel</h1>
+        <h1>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ verticalAlign: 'middle', marginRight: '6px' }}>
+            <ellipse cx="12" cy="9" rx="7" ry="8" fill="#7CB342" stroke="#1B3A63" strokeWidth="1.2" />
+            <circle cx="9" cy="6" r="0.8" fill="#1B3A63" /><circle cx="12" cy="5.3" r="0.8" fill="#1B3A63" /><circle cx="15" cy="6" r="0.8" fill="#1B3A63" />
+            <circle cx="8" cy="9" r="0.8" fill="#1B3A63" /><circle cx="12" cy="9" r="0.8" fill="#1B3A63" /><circle cx="16" cy="9" r="0.8" fill="#1B3A63" />
+            <circle cx="9" cy="12" r="0.8" fill="#1B3A63" /><circle cx="12" cy="12.7" r="0.8" fill="#1B3A63" /><circle cx="15" cy="12" r="0.8" fill="#1B3A63" />
+            <rect x="10.5" y="16" width="3" height="7" rx="1.5" fill="#1B3A63" />
+          </svg>
+          AnnaPadel
+        </h1>
         <p>Ciao, sono Anna! Inserisci la tua disponibilità e ti troverò 3 compagni compatibili con te, avvisandoti su WhatsApp.</p>
       </div>
 
