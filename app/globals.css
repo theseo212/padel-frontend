@@ -1,7 +1,17 @@
-/* Stile neutro e pulito: struttura pronta per essere "vestita" con la
-   grafica definitiva in un passaggio successivo. Le classi sono nominate
-   in modo semantico (es. .campo, .sezione, .bottone-primario) così sarà
-   facile applicare il design senza dover riscrivere il markup. */
+/* Identità visiva di AnnaPadel: palette ricavata dalla divisa di Anna
+   (blu navy + verde), Fredoka per i titoli (rotondo, amichevole, coerente
+   col personaggio), Inter per i testi (pulito, leggibile). */
+
+:root {
+  --colore-primario: #1B3A63;
+  --colore-primario-scuro: #12283F;
+  --colore-accento: #7CB342;
+  --colore-accento-chiaro: #A5D66B;
+  --colore-pallina: #D4E157;
+  --colore-sfondo: #F7F8F5;
+  --font-titoli: "Fredoka", -apple-system, sans-serif;
+  --font-testo: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
 
 * {
   box-sizing: border-box;
@@ -9,8 +19,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: #f6f7f8;
+  font-family: var(--font-testo);
+  background: var(--colore-sfondo);
   color: #1a1a1a;
   line-height: 1.5;
 }
@@ -25,9 +35,23 @@ body {
   margin-bottom: 28px;
 }
 
+.avatar-pagina {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 2px solid var(--colore-accento-chiaro);
+  margin-bottom: 10px;
+  display: block;
+}
+
 .intestazione h1 {
-  font-size: 22px;
+  font-family: var(--font-titoli);
+  font-weight: 600;
+  font-size: 26px;
   margin: 0 0 6px;
+  color: var(--colore-primario);
 }
 
 .intestazione p {
@@ -45,9 +69,11 @@ body {
 }
 
 .sezione h2 {
-  font-size: 15px;
+  font-family: var(--font-titoli);
+  font-weight: 600;
+  font-size: 16px;
   margin: 0 0 14px;
-  color: #333;
+  color: var(--colore-primario);
 }
 
 .campo {
@@ -153,6 +179,110 @@ body {
   font-weight: 600;
 }
 
+.hero-anna {
+  background: linear-gradient(135deg, var(--colore-primario) 0%, var(--colore-primario-scuro) 100%);
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+.hero-contenuto {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+}
+
+.hero-testo {
+  flex: 1 1 320px;
+  min-width: 280px;
+  text-align: left;
+}
+
+.hero-titolo {
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  font-size: 48px;
+  color: white;
+  margin: 0 0 4px;
+}
+
+.hero-sottotitolo {
+  font-family: var(--font-titoli);
+  font-weight: 500;
+  font-size: 19px;
+  color: var(--colore-pallina);
+  margin: 0 0 16px;
+}
+
+.hero-tagline {
+  font-size: 16px;
+  color: #dfe6ee;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.hero-cta {
+  background: var(--colore-accento);
+  color: white;
+  border: none;
+  padding: 14px 26px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-titoli);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.hero-cta:hover {
+  background: #6BA332;
+  transform: translateY(-1px);
+}
+
+.hero-immagine-contenitore {
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 420px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-immagine {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  display: block;
+}
+
+.fumetto-css {
+  position: absolute;
+  top: 6%;
+  left: -4%;
+  background: white;
+  color: var(--colore-primario);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  max-width: 210px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  .hero-titolo { font-size: 38px; }
+  .hero-sottotitolo { font-size: 16px; }
+  .hero-testo { text-align: center; }
+  .hero-cta { width: 100%; }
+  .fumetto-css { position: static; max-width: 100%; margin-bottom: 12px; border-radius: 16px; }
+}
+
 .circolo-indirizzo {
   color: #777;
   font-size: 13px;
@@ -230,7 +360,7 @@ body {
 
 .bottone-primario {
   width: 100%;
-  background: #2563eb;
+  background: var(--colore-accento);
   color: white;
   border: none;
   padding: 14px;
@@ -239,10 +369,15 @@ body {
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
+  transition: background 0.15s;
+}
+
+.bottone-primario:hover:not(:disabled) {
+  background: #6BA332;
 }
 
 .bottone-primario:disabled {
-  background: #9db8ee;
+  background: #b8d99b;
   cursor: not-allowed;
 }
 
