@@ -59,6 +59,7 @@ export default function Contatti() {
   return (
     <main className="pagina">
       <div className="intestazione">
+        <img src="/anna-avatar.png" alt="Anna" className="avatar-pagina" />
         <h1>Contattaci</h1>
         <p>Per qualsiasi domanda, richiesta o segnalazione, compila il form: ti risponderò il prima possibile.</p>
       </div>
