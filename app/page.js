@@ -32,7 +32,7 @@ function soloNumeri(testo) {
 }
 
 function nuovaFasciaOraria() {
-  return { oraInizio: '18', minutoInizio: '00', oraFine: '20', minutoFine: '00' };
+  return { oraInizio: '08', minutoInizio: '00', oraFine: '23', minutoFine: '00' };
 }
 
 export default function Pagina() {
