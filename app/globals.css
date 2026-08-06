@@ -287,7 +287,7 @@ body {
 .hero-immagine-contenitore {
   flex: 1 1 320px;
   min-width: 260px;
-  max-width: 420px;
+  max-width: 480px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -300,29 +300,12 @@ body {
   display: block;
 }
 
-.fumetto-css {
-  position: absolute;
-  top: 3%;
-  left: 2%;
-  background: white;
-  color: var(--colore-primario);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border-bottom-left-radius: 4px;
-  max-width: 190px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 2;
-}
-
 @media (max-width: 640px) {
   .hero-titolo { font-size: 38px; }
   .hero-sottotitolo { font-size: 19px; }
   .hero-testo { text-align: center; }
   .hero-cta { width: 100%; }
-  .fumetto-css { position: static; max-width: 100%; margin-bottom: 12px; border-radius: 16px; }
+  .hero-immagine-contenitore { max-width: 100%; }
 }
 
 .circolo-indirizzo {
