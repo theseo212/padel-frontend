@@ -6,6 +6,7 @@ export default function PrivacyPolicy() {
   return (
     <main className="pagina">
       <div className="intestazione">
+        <img src="/anna-avatar.png" alt="Anna" className="avatar-pagina" />
         <h1>Privacy Policy</h1>
       </div>
       <div className="sezione">
