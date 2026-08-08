@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -45,7 +45,7 @@ export default function Pagina() {
   const [livelloValore, setLivelloValore] = useState('');
 
   // --- dati della richiesta specifica ---
-  const [tipoPartita, setTipoPartita] = useState('MISTA');
+  const [tipoPartita, setTipoPartita] = useState('MASCHILE');
   const [giorno, setGiorno] = useState('');
   const [fasceOrarie, setFasceOrarie] = useState([nuovaFasciaOraria()]);
   const [circoli, setCircoli] = useState([]);
@@ -470,7 +470,7 @@ export default function Pagina() {
                       <option key={l} value={l}>{l}</option>
                     ))}
                   </select>
-                  <p className="testo-piccolo">Da 0.00 a 7.00.</p>
+                  <p className="testo-piccolo">Da 0.00 (livello base) a 7.00 (livello più alto).</p>
                 </>
               ) : (
                 <>

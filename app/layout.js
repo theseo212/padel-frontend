@@ -1,4 +1,8 @@
 import './globals.css';
+import Script from 'next/script';
+
+// Sostituisci con il tuo ID vero di Google Analytics (es. "G-ABC1234XYZ")
+const GOOGLE_ANALYTICS_ID = 'G-1KNM2JBV6J';
 
 export const metadata = {
   title: 'AnnaPadel - La tua segretaria personale per il padel',
@@ -17,6 +21,16 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`} strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ANALYTICS_ID}');
+          `}
+        </Script>
+
         <nav className="nav-sito">
           <a href="/" className="nav-logo">
             <img src="/racchetta-icona.svg" alt="" width="22" height="22" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
