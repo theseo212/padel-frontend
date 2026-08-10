@@ -46,7 +46,8 @@ export default function RootLayout({ children }) {
         {children}
 
         <footer className="footer-sito">
-          © 2026 AnnaPadel. Tutti i diritti riservati.
+          © 2026 AnnaPadel. Tutti i diritti riservati.<br />
+          AnnaPadel è un marchio gestito da INTERNET VOICE DI ANDREA MARCONATO - P.IVA IT09980330014
         </footer>
       </body>
     </html>
