@@ -420,8 +420,9 @@ export default function Pagina() {
 
             {profilo && (
               <p className="profilo-riconosciuto">
-                👋 Bentornato/a {profilo.nome} {profilo.cognome}! Non serve reinserire i tuoi dati:
-                ci penso io a tutto.
+                👋 Bentornato/a {profilo.nome} {profilo.cognome} (liv.{profilo.livello_playtomic.toFixed(2)})!<br />
+                Ho memorizzato le tue preferenze di gioco (ma se vuoi puoi cambiarle), tu devi solo più
+                inserire il giorno e la fascia oraria, al resto penso tutto io!
               </p>
             )}
           </div>
