@@ -19,7 +19,7 @@ export default function StatoRichieste() {
     setErrore(null);
     try {
       // Il link nel messaggio WhatsApp non contiene il "+" (evita problemi
-      // di interpretazione dell'URL) - lo rimettiamo qui prima di
+      // di interpretazione dell'URL) - lo rimettiamo qui prima dii
       // interrogare il backend, che si aspetta il numero in formato
       // internazionale completo (es. +393331234567).
       const numeroCompleto = numero.startsWith('+') ? numero : `+${numero}`;
