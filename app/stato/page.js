@@ -18,7 +18,12 @@ export default function StatoRichieste() {
     setCaricamento(true);
     setErrore(null);
     try {
-      const risposta = await fetch(`${API_URL}/stato-richieste/${numero}`);
+      // Il link nel messaggio WhatsApp non contiene il "+" (evita problemi
+      // di interpretazione dell'URL) - lo rimettiamo qui prima di
+      // interrogare il backend, che si aspetta il numero in formato
+      // internazionale completo (es. +393331234567).
+      const numeroCompleto = numero.startsWith('+') ? numero : `+${numero}`;
+      const risposta = await fetch(`${API_URL}/stato-richieste/${numeroCompleto}`);
       if (!risposta.ok) {
         const dati = await risposta.json().catch(() => ({}));
         throw new Error(dati.detail || 'Non riesco a trovare le tue richieste.');
