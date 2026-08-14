@@ -101,9 +101,6 @@ export default function StatoRichieste() {
                 <span style={{ fontSize: '16px', fontWeight: 600, color: '#1B3A63' }}>
                   {r.giorno} · {r.tipo_partita}
                 </span>
-                <span style={{ fontWeight: 600, color: coloreProbabilita[r.probabilita] || '#444', fontSize: '14px' }}>
-                  {r.probabilita}
-                </span>
               </div>
 
               <div style={{ fontSize: '14px', color: '#444' }}>
@@ -112,6 +109,13 @@ export default function StatoRichieste() {
 
               <div style={{ fontSize: '14px', color: '#444' }}>
                 👥 {r.persone_compatibili} persone potenzialmente compatibili
+              </div>
+
+              <div style={{ fontSize: '14px', color: '#444' }}>
+                Probabilità di chiusura partita:{' '}
+                <span style={{ fontWeight: 600, color: coloreProbabilita[r.probabilita] || '#444' }}>
+                  {r.probabilita}
+                </span>
               </div>
 
               <button
