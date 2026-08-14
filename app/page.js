@@ -296,7 +296,8 @@ export default function Pagina() {
             <p>
               Hai correttamente inserito una richiesta per giocare una partita <strong>{tipoPartitaLabel}</strong>{' '}
               il giorno <strong>{giornoLeggibile}</strong>, dalle <strong>{fasceLeggibili}</strong>,
-              lato <strong>{latoLabel}</strong>, nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
+              lato <strong>{latoLabel}</strong>, livello compatibile con <strong>{livelloValore}</strong>,
+              nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
             </p>
             <p>Ti manderò anche su WhatsApp una conferma con questo stesso riepilogo.</p>
             <p>
@@ -304,6 +305,9 @@ export default function Pagina() {
               dell'inizio della tua fascia di disponibilità ti aggiornerò sulla situazione.
             </p>
           </div>
+          <a href="/" className="bottone-primario" style={{ display: 'block', textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
+            Clicca qui per inserire una nuova richiesta
+          </a>
         </div>
       </main>
     );
@@ -407,7 +411,9 @@ export default function Pagina() {
               <span className="prefisso-whatsapp">{PREFISSO_WHATSAPP}</span>
               <input
                 id="whatsapp"
+                name="tel"
                 type="tel"
+                autoComplete="tel-national"
                 placeholder="333 1234567"
                 value={whatsappLocale}
                 onChange={(e) => gestisciModificaWhatsapp(e.target.value)}
@@ -433,11 +439,11 @@ export default function Pagina() {
             <h2>I tuoi dati</h2>
             <div className="campo">
               <label htmlFor="nome">Nome</label>
-              <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
+              <input id="nome" name="given-name" autoComplete="given-name" type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
             </div>
             <div className="campo">
               <label htmlFor="cognome">Cognome</label>
-              <input id="cognome" type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} />
+              <input id="cognome" name="family-name" autoComplete="family-name" type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} />
             </div>
 
             <div className="campo">
