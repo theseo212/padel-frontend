@@ -19,7 +19,7 @@ export default function StatoRichieste() {
     setErrore(null);
     try {
       // Il link nel messaggio WhatsApp non contiene il "+" (evita problemi
-      // di interpretazione dell'URL) - lo rimettiamo qui prima dii
+      // di interpretazione dell'URL) - lo rimettiamo qui prima di
       // interrogare il backend, che si aspetta il numero in formato
       // internazionale completo (es. +393331234567).
       const numeroCompleto = numero.startsWith('+') ? numero : `+${numero}`;
@@ -94,45 +94,39 @@ export default function StatoRichieste() {
       )}
 
       {!caricamento && !errore && richieste.length > 0 && (
-        <div className="sezione" style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
-            <thead>
-              <tr style={{ borderBottom: '2px solid #eee', textAlign: 'left' }}>
-                <th style={{ padding: '8px 6px' }}>Giorno</th>
-                <th style={{ padding: '8px 6px' }}>Fascia oraria</th>
-                <th style={{ padding: '8px 6px' }}>Tipo</th>
-                <th style={{ padding: '8px 6px' }}>Persone potenzialmente compatibili</th>
-                <th style={{ padding: '8px 6px' }}>Probabilità</th>
-                <th style={{ padding: '8px 6px' }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {richieste.map((r) => (
-                <tr key={r.id} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                  <td style={{ padding: '10px 6px' }}>{r.giorno}</td>
-                  <td style={{ padding: '10px 6px' }}>{r.fasce_orarie}</td>
-                  <td style={{ padding: '10px 6px' }}>{r.tipo_partita}</td>
-                  <td style={{ padding: '10px 6px', textAlign: 'center' }}>{r.persone_compatibili}</td>
-                  <td style={{ padding: '10px 6px', fontWeight: 600, color: coloreProbabilita[r.probabilita] || '#444' }}>
-                    {r.probabilita}
-                  </td>
-                  <td style={{ padding: '10px 6px', textAlign: 'right' }}>
-                    <button
-                      onClick={() => annullaRichiesta(r.id)}
-                      disabled={annullandoId === r.id}
-                      style={{
-                        background: '#fbdcdc', color: '#a3231f', border: 'none',
-                        borderRadius: '6px', padding: '7px 12px', fontSize: '13px',
-                        fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {annullandoId === r.id ? 'Annullo…' : 'Annulla la richiesta'}
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div>
+          {richieste.map((r) => (
+            <div key={r.id} className="sezione" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '6px' }}>
+                <span style={{ fontSize: '16px', fontWeight: 600, color: '#1B3A63' }}>
+                  {r.giorno} · {r.tipo_partita}
+                </span>
+                <span style={{ fontWeight: 600, color: coloreProbabilita[r.probabilita] || '#444', fontSize: '14px' }}>
+                  {r.probabilita}
+                </span>
+              </div>
+
+              <div style={{ fontSize: '14px', color: '#444' }}>
+                🕒 {r.fasce_orarie}
+              </div>
+
+              <div style={{ fontSize: '14px', color: '#444' }}>
+                👥 {r.persone_compatibili} persone potenzialmente compatibili
+              </div>
+
+              <button
+                onClick={() => annullaRichiesta(r.id)}
+                disabled={annullandoId === r.id}
+                style={{
+                  background: '#fbdcdc', color: '#a3231f', border: 'none',
+                  borderRadius: '6px', padding: '9px 12px', fontSize: '13px',
+                  fontWeight: 500, cursor: 'pointer', marginTop: '4px',
+                }}
+              >
+                {annullandoId === r.id ? 'Annullo…' : 'Annulla la richiesta'}
+              </button>
+            </div>
+          ))}
         </div>
       )}
     </main>
