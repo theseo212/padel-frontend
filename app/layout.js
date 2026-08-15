@@ -31,6 +31,12 @@ export default function RootLayout({ children }) {
             gtag('config', '${GOOGLE_ANALYTICS_ID}');
           `}
         </Script>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4346532305433003"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
       </head>
       <body>
         <nav className="nav-sito">
