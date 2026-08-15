@@ -20,10 +20,10 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
-      </head>
-      <body>
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`} strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
+        {/* Google Analytics: DEVE stare nell'head (non nel body) - è lì
+            che Google Search Console cerca il tag per la verifica proprietà. */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`} strategy="beforeInteractive" />
+        <Script id="google-analytics" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -31,7 +31,8 @@ export default function RootLayout({ children }) {
             gtag('config', '${GOOGLE_ANALYTICS_ID}');
           `}
         </Script>
-
+      </head>
+      <body>
         <nav className="nav-sito">
           <a href="/" className="nav-logo">
             <img src="/racchetta-icona.svg" alt="" width="22" height="22" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
