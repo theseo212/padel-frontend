@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 
@@ -60,7 +60,7 @@ export default function Contatti() {
     <main className="pagina">
       <div className="intestazione">
         <img src="/anna-avatar.png" alt="Anna" className="avatar-pagina" />
-        <h1>Contattaci</h1>
+        <h1>Contattami</h1>
         <p>Per qualsiasi domanda, richiesta o segnalazione, compila il form: ti risponderò il prima possibile.</p>
       </div>
 
@@ -78,7 +78,7 @@ export default function Contatti() {
         </div>
         <div className="campo">
           <label htmlFor="telefono">Numero di telefono</label>
-          <input id="telefono" type="tel" placeholder="333 1234567" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+          <input id="telefono" type="tel" placeholder="" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
         </div>
         <div className="campo">
           <label htmlFor="messaggio">Messaggio</label>
