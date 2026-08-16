@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="it">
       <head>
         <meta name="facebook-domain-verification" content="5z99j6zlhgm87x9lcdpvqubt0bfi0u" />
+        <meta name="google-adsense-account" content="ca-pub-4346532305433003" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -31,11 +32,6 @@ export default function RootLayout({ children }) {
             gtag('config', '${GOOGLE_ANALYTICS_ID}');
           `}
         </Script>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4346532305433003"
-          crossOrigin="anonymous"
-        ></script>
       </head>
       <body>
         <nav className="nav-sito">
