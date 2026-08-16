@@ -62,6 +62,15 @@ export default function Pagina() {
   // --- stato della UI ---
   const [schermata, setSchermata] = useState('form'); // form | otp | successo
   const [errore, setErrore] = useState(null);
+
+  function mostraErrore(messaggio) {
+    setErrore(messaggio);
+    // Se l'utente ha già scorso in fondo alla pagina (es. per premere il
+    // bottone finale), il messaggio d'errore in cima altrimenti resta
+    // fuori dallo sguardo - senza questo, chi non sa che deve tornare su
+    // pensa semplicemente che il bottone "non abbia fatto niente".
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   const [conflitto, setConflitto] = useState(null);
   const [inviando, setInviando] = useState(false);
   const [codiceOtp, setCodiceOtp] = useState('');
@@ -202,7 +211,7 @@ export default function Pagina() {
 
     const erroreValidazione = validaForm();
     if (erroreValidazione) {
-      setErrore(erroreValidazione);
+      mostraErrore(erroreValidazione);
       return;
     }
 
@@ -223,7 +232,7 @@ export default function Pagina() {
 
       if (!risposta.ok) {
         const messaggio = typeof dati.detail === 'string' ? dati.detail : 'Si è verificato un errore, riprova.';
-        setErrore(messaggio);
+        mostraErrore(messaggio);
         return;
       }
 
@@ -233,7 +242,7 @@ export default function Pagina() {
         setSchermata('successo');
       }
     } catch {
-      setErrore('Non riesco a contattare il server. Controlla la connessione e riprova.');
+      mostraErrore('Non riesco a contattare il server. Controlla la connessione e riprova.');
     } finally {
       setInviando(false);
     }
@@ -247,7 +256,7 @@ export default function Pagina() {
       setConflitto(null);
       await inviaRichiesta();
     } catch {
-      setErrore('Non sono riuscito ad annullare la richiesta precedente. Riprova.');
+      mostraErrore('Non sono riuscito ad annullare la richiesta precedente. Riprova.');
     } finally {
       setInviando(false);
     }
@@ -266,12 +275,12 @@ export default function Pagina() {
       const dati = await risposta.json();
 
       if (!risposta.ok) {
-        setErrore(dati.detail || 'Codice non valido, riprova.');
+        mostraErrore(dati.detail || 'Codice non valido, riprova.');
         return;
       }
       setSchermata('successo');
     } catch {
-      setErrore('Non riesco a contattare il server. Controlla la connessione e riprova.');
+      mostraErrore('Non riesco a contattare il server. Controlla la connessione e riprova.');
     } finally {
       setInviando(false);
     }
