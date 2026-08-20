@@ -5,7 +5,7 @@
 const FAQ = [
   {
     domanda: 'Come funziona AnnaPadel?',
-    risposta: 'Inserisci il giorno e le fasce orarie in cui puoi giocare, il tuo livello e il circolo che preferisci. Appena trovo altri 3 giocatori compatibili con te, ti avviso su WhatsApp con la proposta di partita.',
+    risposta: 'Inserisci il giorno e le relative fasce orarie in cui puoi giocare, il tuo livello, il lato di gioco e il circolo/i che preferisci. Appena trovo altri 3 giocatori compatibili con te, ti avviso su WhatsApp con la proposta di partita.',
   },
   {
     domanda: 'Il servizio è gratuito?',
@@ -17,11 +17,7 @@ const FAQ = [
   },
   {
     domanda: 'Cosa succede se qualcuno del gruppo non conferma in tempo?',
-    risposta: 'Hai 15 minuti per confermare ogni proposta. Se qualcuno rifiuta o non risponde in tempo, gli altri tornano automaticamente in ricerca, senza nessuna penalità per chi aveva già confermato.',
-  },
-    {
-    domanda: 'Come si fa ad inserire un nuovo circolo dove poter giocare?',
-    risposta: 'Scrivimi tramite il modulo dei contatti e ti spiegherò come procedere.',
+    risposta: 'Hai 20 minuti per confermare ogni proposta. Se qualcuno rifiuta o non risponde in tempo, gli altri tornano automaticamente in ricerca, senza nessuna penalità per chi aveva già confermato.',
   },
   {
     domanda: 'Devo pagare il campo tramite il sito?',
@@ -42,6 +38,10 @@ const FAQ = [
     {
     domanda: 'Il mio livello di gioco non è corretto, come posso modificarlo?',
     risposta: 'Scrivimi tramite il modulo dei contatti e analizzeremo la situazione insieme.',
+  },
+      {
+    domanda: 'Come si fa ad inserire un nuovo circolo dove poter giocare?',
+    risposta: 'Scrivimi tramite il modulo dei contatti e ti spiegherò come procedere.',
   },
   {
     domanda: 'I miei dati sono al sicuro?',
