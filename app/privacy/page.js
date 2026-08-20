@@ -1,4 +1,4 @@
-﻿export const metadata = {
+export const metadata = {
   title: 'Privacy Policy - AnnaPadel',
 };
 
@@ -9,10 +9,9 @@ export default function PrivacyPolicy() {
         <img src="/anna-avatar.png" alt="Anna" className="avatar-pagina" />
         <h1>Informativa sul trattamento dei dati personali <br />(Art. 13 del Regolamento UE 2016/679 - GDPR)</h1>
       </div>
-<div className="sezione">
+<div className="sezione testo-legale">
 
-  <p>1. Titolare del Trattamento. Il presente sito web è gestito come progetto amatoriale (di seguito "la Piattaforma").
-Per qualsiasi chiarimento, domanda o richiesta legata alla privacy, puoi contattare il responsabile del progetto (indirizzo email: info@annapadel.it)</p>
+  <p>1. Titolare del Trattamento. Il presente sito web è gestito come progetto amatoriale (di seguito "la Piattaforma"). Per qualsiasi chiarimento, domanda o richiesta legata alla privacy, puoi contattare il responsabile del progetto (indirizzo email: info@annapadel.it)</p>
 
   <p>2. Quali dati raccogliamo. Per permetterti di organizzare e partecipare alle partite di padel, raccogliamo esclusivamente i dati necessari al funzionamento del servizio:
 - Dati identificativi e di contatto: nome, cognome e numero di telefono cellulare.
@@ -79,18 +78,3 @@ Lo utente può modificare in qualsiasi momento le proprie preferenze attraverso 
     </main>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
