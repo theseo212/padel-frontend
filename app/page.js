@@ -387,7 +387,7 @@ export default function Pagina() {
           <img src="/racchetta-icona.svg" alt="" width="24" height="24" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
           AnnaPadel
         </h1>
-        <p>Ciao! Dimmi quando puoi giocare e troverò 3 compagni compatibili con te, avvisandoti subito su WhatsApp.</p>
+        <p>Ciao! Dimmi quando puoi giocare e troverò 3 persone compatibili con te, avvisandoti subito su WhatsApp.</p>
       </div>
 
       {errore && <p className="messaggio-errore">{errore}</p>}
