@@ -442,6 +442,11 @@ body {
   margin: 0 0 12px;
 }
 
+.testo-legale p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .accettazione-legale {
   display: flex;
   flex-wrap: wrap;
