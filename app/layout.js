@@ -1,4 +1,4 @@
-import './globals.css';
+﻿import './globals.css';
 import Script from 'next/script';
 
 // Sostituisci con il tuo ID vero di Google Analytics (es. "G-ABC1234XYZ")
@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
 
         <footer className="footer-sito">
           © 2026 AnnaPadel. Tutti i diritti riservati.<br />
-          AnnaPadel è un marchio gestito da INTERNET VOICE DI ANDREA MARCONATO - P.IVA IT09980330014
+          AnnaPadel è un marchio di Internet Voice - P.IVA IT09980330014
         </footer>
       </body>
     </html>
