@@ -61,6 +61,7 @@ export default function Pagina() {
 
   // --- stato della UI ---
   const [schermata, setSchermata] = useState('form'); // form | otp | successo
+  const [mostraAvvisoTest, setMostraAvvisoTest] = useState(true);
   const [errore, setErrore] = useState(null);
 
   function mostraErrore(messaggio) {
@@ -358,6 +359,49 @@ export default function Pagina() {
 
   return (
     <>
+      {/* ===================================================================
+          INIZIO POP-UP "SITO IN FASE DI TEST"
+          Per RIMUOVERLA in futuro: cancella questo intero blocco, dalla
+          riga di apertura del commento fino alla riga "FINE POP-UP" più
+          sotto - non serve toccare nient'altro nel resto del file.
+      ==================================================================== */}
+      {mostraAvvisoTest && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(27, 58, 99, 0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 1000, padding: '20px',
+          }}
+        >
+          <div
+            style={{
+              background: 'white', borderRadius: '16px', padding: '28px',
+              maxWidth: '420px', width: '100%', boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ fontSize: '36px', marginBottom: '8px' }}>🚧</div>
+            <h2 style={{ fontFamily: 'var(--font-titoli)', color: 'var(--colore-primario)', fontSize: '19px', margin: '0 0 10px' }}>
+              Sito in fase di test
+            </h2>
+            <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
+              Stiamo ancora perfezionando alcuni dettagli: potresti incontrare qualche imprecisione
+              o funzionalità non ancora completa. Grazie per la pazienza!
+            </p>
+            <button
+              onClick={() => setMostraAvvisoTest(false)}
+              className="bottone-primario"
+              style={{ margin: 0 }}
+            >
+              Ho capito, continua
+            </button>
+          </div>
+        </div>
+      )}
+      {/* ===================================================================
+          FINE POP-UP "SITO IN FASE DI TEST"
+      ==================================================================== */}
+
       <section className="hero-anna">
         <div className="hero-contenuto">
           <div className="hero-testo">
