@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -385,8 +385,7 @@ export default function Pagina() {
               Sito in fase di test
             </h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
-              Stiamo ancora perfezionando alcuni dettagli: potresti incontrare qualche imprecisione
-              o funzionalità non ancora completa. Grazie per la pazienza!
+              Potresti incontrare qualche funzionalità non ancora completa. Grazie per la pazienza!
             </p>
             <button
               onClick={() => setMostraAvvisoTest(false)}
