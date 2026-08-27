@@ -47,6 +47,7 @@ export default function PaginaPalavillage() {
 
   // --- riconoscimento utente esistente ---
   const [profilo, setProfilo] = useState(null);
+  const [trovatoNelGenerico, setTrovatoNelGenerico] = useState(false);
   const [caricandoProfilo, setCaricandoProfilo] = useState(false);
 
   // --- stato della UI ---
@@ -78,6 +79,7 @@ export default function PaginaPalavillage() {
 
       if (dati.esiste) {
         setProfilo(dati);
+        setTrovatoNelGenerico(false);
         setNome(dati.nome);
         setCognome(dati.cognome);
         setLatoPreferito(dati.lato_preferito);
@@ -89,8 +91,26 @@ export default function PaginaPalavillage() {
           setLivelloScala('PLAYTOMIC');
           setLivelloValore(dati.livello_playtomic.toFixed(2));
         }
+      } else if (dati.trovato_nel_generico) {
+        // Numero già conosciuto da Anna sul sistema generico, ma è la
+        // prima volta qui su Palavillage: precompiliamo nome/cognome/
+        // livello (niente da rifare), ma lato e mattine restano da
+        // scegliere per la prima volta - quindi NON impostiamo "profilo"
+        // (che nasconderebbe anche quelle sezioni).
+        setProfilo(null);
+        setTrovatoNelGenerico(true);
+        setNome(dati.nome);
+        setCognome(dati.cognome);
+        if (dati.livello_dichiarato_scala === 'WANSPORT') {
+          setLivelloScala('WANSPORT');
+          setLivelloValore(dati.livello_dichiarato_originale);
+        } else {
+          setLivelloScala('PLAYTOMIC');
+          setLivelloValore(dati.livello_playtomic.toFixed(2));
+        }
       } else {
         setProfilo(null);
+        setTrovatoNelGenerico(false);
       }
     } catch {
       setProfilo(null);
@@ -104,6 +124,7 @@ export default function PaginaPalavillage() {
     if (profilo) {
       setProfilo(null);
     }
+    setTrovatoNelGenerico(false);
   }
 
   function toggleGiorno(valore) {
@@ -304,6 +325,13 @@ export default function PaginaPalavillage() {
               <p className="profilo-riconosciuto">
                 👋 Bentornato/a {profilo.nome} {profilo.cognome} (liv. {profilo.livello_playtomic.toFixed(2)})!<br />
                 Ho memorizzato le tue preferenze: puoi comunque cambiare mattine e lato di gioco qui sotto.
+              </p>
+            )}
+
+            {trovatoNelGenerico && !profilo && (
+              <p className="profilo-riconosciuto">
+                👋 Ti conosco già, {nome}! Ho recuperato i tuoi dati da AnnaPadel: ti manca solo
+                scegliere lato di gioco e mattine qui sotto per completare l'iscrizione a Palavillage.
               </p>
             )}
           </div>
