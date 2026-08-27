@@ -13,7 +13,7 @@ export default function NavSito() {
     <nav className="nav-sito">
       <a href={linkHome} className="nav-logo">
         <img src="/racchetta-icona.svg" alt="" width="22" height="22" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
-        {inPalavillage ? 'Palavillage' : 'AnnaPadel'}
+        AnnaPadel
       </a>
       <div className="nav-link-gruppo">
         <a href={linkFaq}>FAQ</a>
