@@ -309,6 +309,57 @@ body {
   .hero-contenuto { gap: 6px; }
 }
 
+/* Hero Palavillage: solo foto, senza testo a fianco (a differenza della
+   hero generica) - la stessa .hero-immagine (width:100%, height:auto)
+   fa sì che la foto non venga mai ritagliata, solo ridimensionata. */
+.hero-palavillage {
+  background: linear-gradient(135deg, var(--colore-primario) 0%, var(--colore-primario-scuro) 100%);
+  padding: 28px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-palavillage-immagine-contenitore {
+  max-width: 480px;
+  width: 100%;
+}
+
+/* Griglia "Quali campionati?": 2 colonne (lun-mar / mer-gio), venerdì
+   da solo nella terza riga occupa una sola colonna (metà larghezza),
+   invece di allungarsi su tutta la riga come faceva prima in un layout
+   a flex-wrap con 5 elementi dispari. */
+.griglia-giorni-palavillage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 10px;
+  max-width: 420px;
+}
+
+.griglia-giorni-palavillage .scelta-opzione {
+  min-width: 0;
+}
+
+.griglia-giorni-palavillage .scelta-opzione label {
+  padding: 16px 10px;
+  font-size: 15px;
+}
+
+.griglia-giorni-palavillage .scelta-opzione .orario-giorno {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: #777;
+  margin-top: 3px;
+}
+
+.griglia-giorni-palavillage .scelta-opzione input:checked + label .orario-giorno {
+  color: #1d4ed8;
+}
+
+@media (max-width: 480px) {
+  .griglia-giorni-palavillage { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+}
+
 .circolo-indirizzo {
   color: #777;
   font-size: 13px;

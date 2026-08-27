@@ -1,5 +1,6 @@
 ﻿import './globals.css';
 import Script from 'next/script';
+import NavSito from './NavSito';
 
 // Sostituisci con il tuo ID vero di Google Analytics (es. "G-ABC1234XYZ")
 const GOOGLE_ANALYTICS_ID = 'G-1KNM2JBV6J';
@@ -34,16 +35,7 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body>
-        <nav className="nav-sito">
-          <a href="/" className="nav-logo">
-            <img src="/racchetta-icona.svg" alt="" width="22" height="22" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
-            AnnaPadel
-          </a>
-          <div className="nav-link-gruppo">
-            <a href="/faq">FAQ</a>
-            <a href="/contatti">Contatti</a>
-          </div>
-        </nav>
+        <NavSito />
 
         {children}
 
