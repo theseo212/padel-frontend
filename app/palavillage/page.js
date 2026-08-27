@@ -20,11 +20,11 @@ function generaLivelliPlaytomic() {
 const LIVELLI_PLAYTOMIC = generaLivelliPlaytomic();
 
 const GIORNI = [
-  { valore: 'LUN', etichetta: 'Lunedì' },
-  { valore: 'MAR', etichetta: 'Martedì' },
-  { valore: 'MER', etichetta: 'Mercoledì' },
-  { valore: 'GIO', etichetta: 'Giovedì' },
-  { valore: 'VEN', etichetta: 'Venerdì' },
+  { valore: 'LUN', etichetta: 'Lunedì', orario: '10:00–11:30' },
+  { valore: 'MAR', etichetta: 'Martedì', orario: '12:00–13:30' },
+  { valore: 'MER', etichetta: 'Mercoledì', orario: '11:00–12:30' },
+  { valore: 'GIO', etichetta: 'Giovedì', orario: '13:00–14:30' },
+  { valore: 'VEN', etichetta: 'Venerdì', orario: '11:30–13:00' },
 ];
 
 function soloNumeri(testo) {
@@ -156,7 +156,7 @@ export default function PaginaPalavillage() {
       }
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
-    if (giorniSelezionati.length === 0) return 'Scegli almeno una mattina in cui vuoi giocare.';
+    if (giorniSelezionati.length === 0) return 'Scegli almeno un campionato in cui vuoi giocare.';
     return null;
   }
 
@@ -234,15 +234,15 @@ export default function PaginaPalavillage() {
           <p className="messaggio-successo">✅ Iscrizione inviata con successo!</p>
           <div className="riepilogo-richiesta">
             <p>
-              Hai scelto di giocare i tornei del mattino di <strong>Palavillage</strong> il/i:{' '}
+              Hai scelto di giocare i campionati settimanali di <strong>Palavillage</strong> il/i:{' '}
               <strong>{giorniLeggibili}</strong>, lato <strong>{latoLabel}</strong>,
               livello compatibile con <strong>{livelloValore}</strong>.
             </p>
             <p>Ti manderò anche su WhatsApp una conferma con questo riepilogo.</p>
             <p>
               Ti scriverò io qualche giorno prima di ogni torneo per chiederti conferma della tua
-              partecipazione — nel frattempo puoi tornare qui in qualsiasi momento per cambiare le
-              mattine scelte.
+              partecipazione — nel frattempo puoi tornare qui in qualsiasi momento per cambiare i
+              campionati scelti.
             </p>
           </div>
           <button
@@ -294,12 +294,18 @@ export default function PaginaPalavillage() {
 
   return (
     <main className="pagina" id="form-iscrizione-palavillage">
+      <section className="hero-palavillage">
+        <div className="hero-palavillage-immagine-contenitore">
+          <img src="/anna_palavillage.png" alt="Anna" className="hero-immagine" />
+        </div>
+      </section>
+
       <div className="intestazione">
         <h1>
           <img src="/racchetta-icona.svg" alt="" width="24" height="24" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
           Palavillage
         </h1>
-        <p>Ciao! Dimmi quando vuoi giocare e gestirò le tue iscrizioni ai nostri tornei del mattino, avvisandoti su WhatsApp.</p>
+        <p>Ciao sono Anna! Dimmi quando vuoi giocare e gestirò le tue iscrizioni ai campionati settimanali Palavillage, avvisandoti su WhatsApp.</p>
       </div>
 
       {errore && <p className="messaggio-errore">{errore}</p>}
@@ -329,14 +335,14 @@ export default function PaginaPalavillage() {
             {profilo && (
               <p className="profilo-riconosciuto">
                 👋 Bentornato/a {profilo.nome} {profilo.cognome} (liv. {profilo.livello_playtomic.toFixed(2)})!<br />
-                Ho memorizzato le tue preferenze: puoi comunque cambiare mattine e lato di gioco qui sotto.
+                Ho memorizzato le tue preferenze: puoi comunque cambiare campionati e lato di gioco qui sotto.
               </p>
             )}
 
             {trovatoNelGenerico && !profilo && (
               <p className="profilo-riconosciuto">
                 👋 Ti conosco già, {nome}! Ho recuperato i tuoi dati da AnnaPadel: ti manca solo
-                scegliere lato di gioco e mattine qui sotto per completare l'iscrizione a Palavillage.
+                scegliere lato di gioco e campionati qui sotto per completare l'iscrizione a Palavillage.
               </p>
             )}
           </div>
@@ -432,10 +438,10 @@ export default function PaginaPalavillage() {
         </section>
 
         <section className="sezione">
-          <h2>Quali mattine?</h2>
+          <h2>Quali campionati?</h2>
           <div className="campo">
-            <label>Indica in quali mattine vuoi giocare (potrai cambiare questa scelta in qualsiasi momento)</label>
-            <div className="gruppo-scelte">
+            <label>Indica in quali campionati vuoi giocare (potrai cambiare questa scelta in qualsiasi momento)</label>
+            <div className="griglia-giorni-palavillage">
               {GIORNI.map((giorno) => (
                 <div className="scelta-opzione" key={giorno.valore}>
                   <input
@@ -444,7 +450,10 @@ export default function PaginaPalavillage() {
                     checked={giorniSelezionati.includes(giorno.valore)}
                     onChange={() => toggleGiorno(giorno.valore)}
                   />
-                  <label htmlFor={`giorno-${giorno.valore}`}>{giorno.etichetta}</label>
+                  <label htmlFor={`giorno-${giorno.valore}`}>
+                    {giorno.etichetta}
+                    <span className="orario-giorno">{giorno.orario}</span>
+                  </label>
                 </div>
               ))}
             </div>
@@ -459,7 +468,7 @@ export default function PaginaPalavillage() {
                 checked={accettaTermini}
                 onChange={(e) => setAccettaTermini(e.target.checked)}
               />
-              {' '}Accetto i <a href="/termini" target="_blank" rel="noopener noreferrer">Termini e Condizioni</a>
+              {' '}Accetto i <a href="/palavillage/termini" target="_blank" rel="noopener noreferrer">Termini e Condizioni</a>
             </label>
             <label>
               <input
@@ -467,7 +476,7 @@ export default function PaginaPalavillage() {
                 checked={accettaPrivacy}
                 onChange={(e) => setAccettaPrivacy(e.target.checked)}
               />
-              {' '}Accetto la <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+              {' '}Accetto la <a href="/palavillage/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
             </label>
           </div>
         )}
