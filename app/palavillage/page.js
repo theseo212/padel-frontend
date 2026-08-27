@@ -293,13 +293,14 @@ export default function PaginaPalavillage() {
   }
 
   return (
-    <main className="pagina" id="form-iscrizione-palavillage">
+    <>
       <section className="hero-palavillage">
         <div className="hero-palavillage-immagine-contenitore">
           <img src="/anna_palavillage.png" alt="Anna" className="hero-immagine" />
         </div>
       </section>
 
+      <main className="pagina" id="form-iscrizione-palavillage">
       <div className="intestazione">
         <h1>
           <img src="/racchetta-icona.svg" alt="" width="24" height="24" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
@@ -485,6 +486,7 @@ export default function PaginaPalavillage() {
           {inviando ? 'Invio in corso…' : 'Invia la mia iscrizione'}
         </button>
       </form>
-    </main>
+      </main>
+    </>
   );
 }
