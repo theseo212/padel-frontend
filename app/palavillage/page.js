@@ -303,7 +303,7 @@ export default function PaginaPalavillage() {
       <div className="intestazione">
         <h1>
           <img src="/racchetta-icona.svg" alt="" width="24" height="24" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
-          Palavillage
+          AnnaPadel per il Palavillage
         </h1>
         <p>Ciao sono Anna! Dimmi quando vuoi giocare e gestirò le tue iscrizioni ai campionati settimanali Palavillage, avvisandoti su WhatsApp.</p>
       </div>
