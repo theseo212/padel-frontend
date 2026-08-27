@@ -245,9 +245,14 @@ export default function PaginaPalavillage() {
               mattine scelte.
             </p>
           </div>
-          <a href="/palavillage" className="bottone-primario" style={{ display: 'block', textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
+          <button
+            type="button"
+            className="bottone-primario"
+            onClick={() => setSchermata('form')}
+            style={{ display: 'block', width: '100%', textAlign: 'center', boxSizing: 'border-box' }}
+          >
             Torna qui per modificare la tua iscrizione
-          </a>
+          </button>
         </div>
       </main>
     );
