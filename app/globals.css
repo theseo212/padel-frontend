@@ -313,14 +313,13 @@ body {
    hero generica) - la stessa .hero-immagine (width:100%, height:auto)
    fa sì che la foto non venga mai ritagliata, solo ridimensionata. */
 .hero-palavillage {
-  background: linear-gradient(135deg, var(--colore-primario) 0%, var(--colore-primario-scuro) 100%);
-  padding: 28px 20px;
+  padding: 16px 20px 4px;
   display: flex;
   justify-content: center;
 }
 
 .hero-palavillage-immagine-contenitore {
-  max-width: 480px;
+  max-width: 560px;
   width: 100%;
 }
 
