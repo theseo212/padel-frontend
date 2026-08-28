@@ -81,7 +81,18 @@ export default function Pagina() {
   useEffect(() => {
     fetch(`${API_URL}/circoli?solo_attivi=true`)
       .then((r) => r.json())
-      .then((dati) => setCircoli(dati))
+      .then((dati) => {
+        // Ordine casuale, deciso UNA VOLTA SOLA a questo caricamento della
+        // pagina (non a ogni render) - evita che un circolo si trovi
+        // sempre nelle prime posizioni, percepito come un favoritismo.
+        // Resta fisso per tutta la sessione di compilazione del form.
+        const datiMescolati = [...dati];
+        for (let i = datiMescolati.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [datiMescolati[i], datiMescolati[j]] = [datiMescolati[j], datiMescolati[i]];
+        }
+        setCircoli(datiMescolati);
+      })
       .catch(() => setErrore('Non riesco a caricare la lista dei circoli. Riprova più tardi.'));
   }, []);
 
@@ -125,6 +136,19 @@ export default function Pagina() {
         if (dati.ultima_richiesta) {
           setTipoPartita(dati.ultima_richiesta.tipo_partita);
           setCircoliSelezionati(dati.ultima_richiesta.circoli_ids);
+
+          // Portiamo in testa all'elenco i circoli già scelti l'ultima
+          // volta (ordinati alfabeticamente tra loro, per essere
+          // facilmente riconoscibili), lasciando tutti gli altri sotto
+          // nell'ordine casuale già deciso al caricamento della pagina.
+          const idGiaScelti = new Set(dati.ultima_richiesta.circoli_ids);
+          setCircoli((circoliAttuali) => {
+            const giaScelti = circoliAttuali
+              .filter((c) => idGiaScelti.has(c.id))
+              .sort((a, b) => a.nome.localeCompare(b.nome, 'it'));
+            const restanti = circoliAttuali.filter((c) => !idGiaScelti.has(c.id));
+            return [...giaScelti, ...restanti];
+          });
         }
       } else {
         setProfilo(null);
