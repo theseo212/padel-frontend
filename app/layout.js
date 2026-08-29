@@ -1,6 +1,8 @@
 ﻿import './globals.css';
 import Script from 'next/script';
 import NavSito from './NavSito';
+import GestioneConsenso from './GestioneConsenso';
+import LinkPreferenzeCookie from './LinkPreferenzeCookie';
 
 // Sostituisci con il tuo ID vero di Google Analytics (es. "G-ABC1234XYZ")
 const GOOGLE_ANALYTICS_ID = 'G-1KNM2JBV6J';
@@ -23,12 +25,22 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
         {/* Google Analytics: DEVE stare nell'head (non nel body) - è lì
-            che Google Search Console cerca il tag per la verifica proprietà. */}
+            che Google Search Console cerca il tag per la verifica proprietà.
+            Il consenso parte SEMPRE negato di default (Consent Mode di
+            Google): lo script resta presente per non rompere la verifica,
+            ma non raccoglie/invia nulla finché l'utente non acconsente
+            esplicitamente dal banner - vedi GestioneConsenso.js. */}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`} strategy="beforeInteractive" />
         <Script id="google-analytics" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              'analytics_storage': 'denied',
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied'
+            });
             gtag('js', new Date());
             gtag('config', '${GOOGLE_ANALYTICS_ID}');
           `}
@@ -41,8 +53,11 @@ export default function RootLayout({ children }) {
 
         <footer className="footer-sito">
           © 2026 AnnaPadel. Tutti i diritti riservati.<br />
-          AnnaPadel è un marchio di Internet Voice - P.IVA IT09980330014
+          AnnaPadel è un marchio di Internet Voice - P.IVA IT09980330014<br />
+          <LinkPreferenzeCookie />
         </footer>
+
+        <GestioneConsenso />
       </body>
     </html>
   );
