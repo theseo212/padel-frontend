@@ -406,10 +406,10 @@ export default function Pagina() {
           >
             <div style={{ fontSize: '36px', marginBottom: '8px' }}>🛫</div>
             <h2 style={{ fontFamily: 'var(--font-titoli)', color: 'var(--colore-primario)', fontSize: '19px', margin: '0 0 10px' }}>
-              Sito in fase di decollo
+              Sito in fase di decollo!!
             </h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
-              Potresti incontrare qualche funzionalità non ancora completa. Grazie per la pazienza!
+              Ancora qualche settimana e poi Anna inizierà a lavorare per te. Grazie per la pazienza!
             </p>
             <button
               onClick={() => setMostraAvvisoTest(false)}
