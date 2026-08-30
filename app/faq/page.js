@@ -29,7 +29,7 @@ const FAQ = [
   },
     {
     domanda: 'Posso inviare più richieste per lo stesso giorno?',
-    risposta: 'No, si può inviare una sola richiesta al giorno.',
+    risposta: 'No, si può inviare una sola richiesta al giorno (ma veramente vorresti fare DUE partite in UN giorno?).',
   },
   {
     domanda: 'Il mio livello di gioco può cambiare nel tempo?',
