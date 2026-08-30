@@ -404,9 +404,9 @@ export default function Pagina() {
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: '36px', marginBottom: '8px' }}>🚧</div>
+            <div style={{ fontSize: '36px', marginBottom: '8px' }}>🛫</div>
             <h2 style={{ fontFamily: 'var(--font-titoli)', color: 'var(--colore-primario)', fontSize: '19px', margin: '0 0 10px' }}>
-              Sito in fase di test
+              Sito in fase di decollo
             </h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
               Potresti incontrare qualche funzionalità non ancora completa. Grazie per la pazienza!
@@ -631,7 +631,10 @@ export default function Pagina() {
 
           <div className="campo">
             <label htmlFor="giorno">Giorno in cui vuoi giocare</label>
-            <input id="giorno" type="date" value={giorno} onChange={(e) => setGiorno(e.target.value)} />
+            {/* PROMEMORIA: dal 21/9/2026 in poi togliere l'attributo "min"
+                qui sotto (o lasciarlo vuoto) - serviva solo come limite
+                temporaneo, per non far scegliere giorni prima di allora. */}
+            <input id="giorno" type="date" min="2026-09-21" value={giorno} onChange={(e) => setGiorno(e.target.value)} />
             <p className="testo-piccolo">Un solo giorno per richiesta. Per un altro giorno, invia una richiesta separata.</p>
           </div>
 
