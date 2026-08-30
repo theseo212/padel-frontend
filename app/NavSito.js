@@ -18,6 +18,8 @@ export default function NavSito() {
       <div className="nav-link-gruppo">
         <a href={linkFaq}>FAQ</a>
         <a href="/contatti">Contatti</a>
+        <a href="/">Anna per i giocatori</a>
+        <a href="/circoli">Anna per i circoli</a>
       </div>
     </nav>
   );
