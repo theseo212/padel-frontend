@@ -377,7 +377,7 @@ export default function PaginaPalavillage() {
           </div>
         </section>
 
-        {!profilo && (
+        {!profilo && !trovatoNelGenerico && (
           <section className="sezione">
             <h2>I tuoi dati</h2>
             <div className="campo">
