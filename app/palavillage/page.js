@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Stesso schema del sito generico: il browser chiama sempre /api/...,
 // è next.config.js a inoltrare al backend vero (vedi rewrites()).
@@ -19,16 +19,19 @@ function generaLivelliPlaytomic() {
 }
 const LIVELLI_PLAYTOMIC = generaLivelliPlaytomic();
 
-const GIORNI = [
-  { valore: 'LUN', etichetta: 'Lunedì', orario: '10:00–11:30' },
-  { valore: 'MAR', etichetta: 'Martedì', orario: '12:00–13:30' },
-  { valore: 'MER', etichetta: 'Mercoledì', orario: '11:00–12:30' },
-  { valore: 'GIO', etichetta: 'Giovedì', orario: '13:00–14:30' },
-  { valore: 'VEN', etichetta: 'Venerdì', orario: '11:30–13:00' },
-];
-
 function soloNumeri(testo) {
   return testo.replace(/\D/g, '');
+}
+
+// Testo dell'orario da mostrare sotto il nome di ogni campionato, es.
+// "Martedì, 12:00–13:30" oppure solo "Martedì" se l'admin non ha ancora
+// impostato un orario per questo campionato.
+function testoOrarioCampionato(campionato) {
+  if (!campionato.orario_inizio) return campionato.giorno_leggibile;
+  const fascia = campionato.orario_fine
+    ? `${campionato.orario_inizio}–${campionato.orario_fine}`
+    : campionato.orario_inizio;
+  return `${campionato.giorno_leggibile}, ${fascia}`;
 }
 
 export default function PaginaPalavillage() {
@@ -40,8 +43,13 @@ export default function PaginaPalavillage() {
   const [livelloScala, setLivelloScala] = useState('PLAYTOMIC');
   const [livelloValore, setLivelloValore] = useState('');
 
-  // --- mattine scelte ---
-  const [giorniSelezionati, setGiorniSelezionati] = useState([]);
+  // --- campionati disponibili (letti dal pannello admin, non più fissi) ---
+  const [campionatiDisponibili, setCampionatiDisponibili] = useState([]);
+  const [caricandoCampionati, setCaricandoCampionati] = useState(true);
+  const [erroreCampionati, setErroreCampionati] = useState(false);
+
+  // --- campionati scelti (slot numerici, non più codici giorno) ---
+  const [campionatiSelezionati, setCampionatiSelezionati] = useState([]);
   const [accettaTermini, setAccettaTermini] = useState(false);
   const [accettaPrivacy, setAccettaPrivacy] = useState(false);
 
@@ -57,6 +65,25 @@ export default function PaginaPalavillage() {
   const [codiceOtp, setCodiceOtp] = useState('');
 
   const whatsappCompleto = PREFISSO_WHATSAPP + soloNumeri(whatsappLocale);
+
+  // Carica l'elenco dei campionati aperti una sola volta, all'apertura
+  // della pagina - nome e orario sono quelli VERI impostati dall'admin,
+  // non più scritti a mano qui nel frontend.
+  useEffect(() => {
+    async function caricaCampionatiDisponibili() {
+      try {
+        const risposta = await fetch(`${API_URL}/palavillage/campionati/pubblico`);
+        if (!risposta.ok) throw new Error('Errore nel caricamento');
+        const dati = await risposta.json();
+        setCampionatiDisponibili(dati);
+      } catch {
+        setErroreCampionati(true);
+      } finally {
+        setCaricandoCampionati(false);
+      }
+    }
+    caricaCampionatiDisponibili();
+  }, []);
 
   function mostraErrore(messaggio) {
     setErrore(messaggio);
@@ -83,7 +110,7 @@ export default function PaginaPalavillage() {
         setNome(dati.nome);
         setCognome(dati.cognome);
         setLatoPreferito(dati.lato_preferito);
-        setGiorniSelezionati(dati.giorni || []);
+        setCampionatiSelezionati(dati.campionati || []);
         if (dati.livello_dichiarato_scala === 'WANSPORT') {
           setLivelloScala('WANSPORT');
           setLivelloValore(dati.livello_dichiarato_originale);
@@ -94,7 +121,7 @@ export default function PaginaPalavillage() {
       } else if (dati.trovato_nel_generico) {
         // Numero già conosciuto da Anna sul sistema generico, ma è la
         // prima volta qui su Palavillage: precompiliamo nome/cognome/
-        // livello (niente da rifare), ma lato e mattine restano da
+        // livello (niente da rifare), ma lato e campionati restano da
         // scegliere per la prima volta - quindi NON impostiamo "profilo"
         // (che nasconderebbe anche quelle sezioni).
         setProfilo(null);
@@ -127,9 +154,9 @@ export default function PaginaPalavillage() {
     setTrovatoNelGenerico(false);
   }
 
-  function toggleGiorno(valore) {
-    setGiorniSelezionati((precedenti) =>
-      precedenti.includes(valore) ? precedenti.filter((g) => g !== valore) : [...precedenti, valore]
+  function toggleCampionato(slot) {
+    setCampionatiSelezionati((precedenti) =>
+      precedenti.includes(slot) ? precedenti.filter((s) => s !== slot) : [...precedenti, slot]
     );
   }
 
@@ -141,7 +168,7 @@ export default function PaginaPalavillage() {
       livello_scala: livelloScala,
       livello_valore: livelloValore,
       lato_preferito: latoPreferito,
-      giorni: giorniSelezionati,
+      campionati: campionatiSelezionati,
       accetta_termini: accettaTermini,
       accetta_privacy: accettaPrivacy,
     };
@@ -156,7 +183,7 @@ export default function PaginaPalavillage() {
       }
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
-    if (giorniSelezionati.length === 0) return 'Scegli almeno un campionato in cui vuoi giocare.';
+    if (campionatiSelezionati.length === 0) return 'Scegli almeno un campionato in cui vuoi giocare.';
     return null;
   }
 
@@ -223,8 +250,9 @@ export default function PaginaPalavillage() {
   }
 
   if (schermata === 'successo') {
-    const giorniLeggibili = GIORNI.filter((g) => giorniSelezionati.includes(g.valore))
-      .map((g) => g.etichetta)
+    const campionatiLeggibili = campionatiDisponibili
+      .filter((c) => campionatiSelezionati.includes(c.slot))
+      .map((c) => c.nome_visualizzato)
       .join(', ');
     const latoLabel = { DX: 'destra', SX: 'sinistra', INDIFFERENTE: 'indifferente' }[latoPreferito] || latoPreferito;
 
@@ -234,8 +262,8 @@ export default function PaginaPalavillage() {
           <p className="messaggio-successo">✅ Iscrizione inviata con successo!</p>
           <div className="riepilogo-richiesta">
             <p>
-              Hai scelto di giocare i campionati settimanali di <strong>Palavillage</strong> il/i:{' '}
-              <strong>{giorniLeggibili}</strong>, lato <strong>{latoLabel}</strong>,
+              Hai scelto di giocare i campionati settimanali di <strong>Palavillage</strong>:{' '}
+              <strong>{campionatiLeggibili}</strong>, lato <strong>{latoLabel}</strong>,
               livello compatibile con <strong>{livelloValore}</strong>.
             </p>
             <p>Ti manderò anche su WhatsApp una conferma con questo riepilogo.</p>
@@ -442,22 +470,30 @@ export default function PaginaPalavillage() {
           <h2>Quali campionati?</h2>
           <div className="campo">
             <label>Indica in quali campionati vuoi giocare (potrai cambiare questa scelta in qualsiasi momento)</label>
-            <div className="griglia-giorni-palavillage">
-              {GIORNI.map((giorno) => (
-                <div className="scelta-opzione" key={giorno.valore}>
-                  <input
-                    type="checkbox"
-                    id={`giorno-${giorno.valore}`}
-                    checked={giorniSelezionati.includes(giorno.valore)}
-                    onChange={() => toggleGiorno(giorno.valore)}
-                  />
-                  <label htmlFor={`giorno-${giorno.valore}`}>
-                    {giorno.etichetta}
-                    <span className="orario-giorno">{giorno.orario}</span>
-                  </label>
-                </div>
-              ))}
-            </div>
+
+            {caricandoCampionati && <p className="testo-piccolo">Carico i campionati disponibili…</p>}
+            {erroreCampionati && (
+              <p className="messaggio-errore">Non riesco a caricare l'elenco dei campionati in questo momento. Ricarica la pagina.</p>
+            )}
+
+            {!caricandoCampionati && !erroreCampionati && (
+              <div className="griglia-giorni-palavillage">
+                {campionatiDisponibili.map((c) => (
+                  <div className="scelta-opzione" key={c.slot}>
+                    <input
+                      type="checkbox"
+                      id={`campionato-${c.slot}`}
+                      checked={campionatiSelezionati.includes(c.slot)}
+                      onChange={() => toggleCampionato(c.slot)}
+                    />
+                    <label htmlFor={`campionato-${c.slot}`}>
+                      {c.nome_visualizzato}
+                      <span className="orario-giorno">{testoOrarioCampionato(c)}</span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
