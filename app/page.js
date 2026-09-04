@@ -409,8 +409,7 @@ export default function Pagina() {
               Sito in fase di decollo!!
             </h2>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
-              Ancora qualche settimana e poi Anna inizierà a lavorare per te. Grazie per la pazienza!
-            </p>
+              Anna inizierà a lavorare per te da LUNEDI 21/09. Puoi inserire le tue disponibilità per giocare già da ora però!!! </p>
             <button
               onClick={() => setMostraAvvisoTest(false)}
               className="bottone-primario"
