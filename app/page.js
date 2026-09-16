@@ -7,7 +7,9 @@ import { useState, useEffect } from 'react';
 // al backend vero: il browser non conosce mai l'indirizzo del backend.
 const API_URL = '/api';
 
-const PREFISSO_WHATSAPP = '+39';
+// Elenco dei prefissi disponibili nella tendina - +39 resta il primo
+// (preselezionato di default), gli altri sono i più richiesti per ora.
+const PREFISSI_DISPONIBILI = ['+39', '+31', '+33', '+49', '+34'];
 
 const LIVELLI_WANSPORT = ['C4', 'C3', 'C2', 'C1', 'B4', 'B3', 'B2', 'B1', 'A4', 'A3', 'A2', 'A1'];
 
@@ -39,6 +41,7 @@ export default function Pagina() {
   // --- dati anagrafici (usati solo se l'utente NON viene riconosciuto) ---
   const [nome, setNome] = useState('');
   const [cognome, setCognome] = useState('');
+  const [prefissoWhatsapp, setPrefissoWhatsapp] = useState(PREFISSI_DISPONIBILI[0]); // +39 preselezionato
   const [whatsappLocale, setWhatsappLocale] = useState('');
   const [latoPreferito, setLatoPreferito] = useState('INDIFFERENTE');
   const [livelloScala, setLivelloScala] = useState('PLAYTOMIC');
@@ -76,7 +79,7 @@ export default function Pagina() {
   const [inviando, setInviando] = useState(false);
   const [codiceOtp, setCodiceOtp] = useState('');
 
-  const whatsappCompleto = PREFISSO_WHATSAPP + soloNumeri(whatsappLocale);
+  const whatsappCompleto = prefissoWhatsapp + soloNumeri(whatsappLocale);
 
   useEffect(() => {
     fetch(`${API_URL}/circoli?solo_attivi=true`)
@@ -355,7 +358,7 @@ export default function Pagina() {
           <p>
             È la prima volta che utilizzi AnnaPadel: ho bisogno di verificare il tuo
             numero di telefono, quindi ti ho inviato un codice su WhatsApp al numero{' '}
-            {PREFISSO_WHATSAPP} {whatsappLocale}, che ti chiedo di scrivere qua sotto.
+            {prefissoWhatsapp} {whatsappLocale}, che ti chiedo di scrivere qua sotto.
             Tutte le prossime volte non sarà più necessario.
           </p>
         </div>
@@ -483,7 +486,16 @@ export default function Pagina() {
           <div className="campo">
             <label htmlFor="whatsapp">Numero di telefono</label>
             <div className="campo-con-prefisso">
-              <span className="prefisso-whatsapp">{PREFISSO_WHATSAPP}</span>
+              <select
+                className="prefisso-whatsapp"
+                aria-label="Prefisso internazionale"
+                value={prefissoWhatsapp}
+                onChange={(e) => setPrefissoWhatsapp(e.target.value)}
+              >
+                {PREFISSI_DISPONIBILI.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
               <input
                 id="whatsapp"
                 name="tel"
