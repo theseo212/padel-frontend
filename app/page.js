@@ -491,6 +491,7 @@ export default function Pagina() {
                 aria-label="Prefisso internazionale"
                 value={prefissoWhatsapp}
                 onChange={(e) => setPrefissoWhatsapp(e.target.value)}
+                style={{ flex: '0 0 auto', width: '80px' }}
               >
                 {PREFISSI_DISPONIBILI.map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -505,6 +506,7 @@ export default function Pagina() {
                 value={whatsappLocale}
                 onChange={(e) => gestisciModificaWhatsapp(e.target.value)}
                 onBlur={verificaNumeroConosciuto}
+                style={{ flex: '1 1 auto' }}
               />
             </div>
             <p className="testo-piccolo">Usato per inviarti conferme e proposte di partita.</p>
