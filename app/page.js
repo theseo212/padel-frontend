@@ -48,7 +48,20 @@ export default function Pagina() {
   const [livelloValore, setLivelloValore] = useState('');
 
   // --- dati della richiesta specifica ---
-  const [tipoPartita, setTipoPartita] = useState('MASCHILE');
+  const [tipiPartita, setTipiPartita] = useState(['MASCHILE']);
+
+  // Selezione multipla: un utente può accettare più di un tipo partita
+  // (es. "Maschile o Mista") - aggiunge/rimuove dalla lista al click,
+  // senza mai permettere di restare con zero tipi selezionati.
+  function alternaTipoPartita(valore) {
+    setTipiPartita((attuali) => {
+      if (attuali.includes(valore)) {
+        const rimanenti = attuali.filter((t) => t !== valore);
+        return rimanenti.length > 0 ? rimanenti : attuali; // non svuotare mai del tutto
+      }
+      return [...attuali, valore];
+    });
+  }
   const [giorno, setGiorno] = useState('');
   const [fasceOrarie, setFasceOrarie] = useState([nuovaFasciaOraria()]);
   const [circoli, setCircoli] = useState([]);
@@ -137,7 +150,7 @@ export default function Pagina() {
           setLivelloValore(dati.livello_playtomic.toFixed(2));
         }
         if (dati.ultima_richiesta) {
-          setTipoPartita(dati.ultima_richiesta.tipo_partita);
+          setTipiPartita(dati.ultima_richiesta.tipi_partita);
           setCircoliSelezionati(dati.ultima_richiesta.circoli_ids);
 
           // Portiamo in testa all'elenco i circoli già scelti l'ultima
@@ -203,7 +216,7 @@ export default function Pagina() {
       livello_scala: livelloScala,
       livello_valore: livelloValore,
       lato_preferito: latoPreferito,
-      tipo_partita: tipoPartita,
+      tipi_partita: tipiPartita,
       giorno,
       fasce_orarie: fasceFormattate,
       circoli_ids: circoliSelezionati,
@@ -221,6 +234,7 @@ export default function Pagina() {
       }
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
+    if (tipiPartita.length === 0) return 'Scegli almeno un tipo di partita.';
     if (!giorno) return 'Scegli il giorno in cui vuoi giocare.';
     if (fasceOrarie.length === 0) return 'Inserisci almeno una fascia oraria.';
     for (const f of fasceOrarie) {
@@ -316,7 +330,8 @@ export default function Pagina() {
 
   if (schermata === 'successo') {
     const nomiCircoliScelti = circoli.filter((c) => circoliSelezionati.includes(c.id)).map((c) => c.nome);
-    const tipoPartitaLabel = { MASCHILE: 'maschile', FEMMINILE: 'femminile', MISTA: 'mista' }[tipoPartita] || tipoPartita;
+    const ETICHETTE_TIPO = { MASCHILE: 'maschile', FEMMINILE: 'femminile', MISTA: 'mista' };
+    const tipoPartitaLabel = tipiPartita.map((t) => ETICHETTE_TIPO[t] || t).join(' o ');
     const fasceLeggibili = fasceOrarie
       .map((f) => `${f.oraInizio}:${f.minutoInizio}-${f.oraFine}:${f.minutoFine}`)
       .join(', ');
@@ -622,7 +637,7 @@ export default function Pagina() {
           <h2>La partita che cerchi</h2>
 
           <div className="campo">
-            <label>Tipo di partita</label>
+            <label>Tipo di partita <span className="testo-piccolo">(puoi sceglierne più di uno)</span></label>
             <div className="gruppo-scelte">
               {[
                 { valore: 'MASCHILE', etichetta: 'Maschile' },
@@ -631,10 +646,10 @@ export default function Pagina() {
               ].map((opzione) => (
                 <div className="scelta-opzione" key={opzione.valore}>
                   <input
-                    type="radio"
+                    type="checkbox"
                     id={`tipo-${opzione.valore}`}
-                    checked={tipoPartita === opzione.valore}
-                    onChange={() => setTipoPartita(opzione.valore)}
+                    checked={tipiPartita.includes(opzione.valore)}
+                    onChange={() => alternaTipoPartita(opzione.valore)}
                   />
                   <label htmlFor={`tipo-${opzione.valore}`}>{opzione.etichetta}</label>
                 </div>
