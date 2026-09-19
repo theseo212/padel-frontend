@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation';
 export default function NavSito() {
   const pathname = usePathname();
   const inPalavillage = pathname?.startsWith('/palavillage');
+  const inPadelcity = pathname?.startsWith('/padelcity');
 
-  const linkHome = inPalavillage ? '/palavillage' : '/';
-  const linkFaq = inPalavillage ? '/palavillage/faq' : '/faq';
+  const linkHome = inPalavillage ? '/palavillage' : inPadelcity ? '/padelcity' : '/';
+  const linkFaq = inPalavillage ? '/palavillage/faq' : inPadelcity ? '/padelcity/faq' : '/faq';
 
   return (
     <nav className="nav-sito">

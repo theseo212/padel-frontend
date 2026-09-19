@@ -584,3 +584,52 @@ body {
   font-size: 13px;
   margin-top: 10px;
 }
+
+/* Hero PadelCity: solo foto, senza testo a fianco (a differenza della
+   hero generica) - la stessa .hero-immagine (width:100%, height:auto)
+   fa sì che la foto non venga mai ritagliata, solo ridimensionata. */
+.hero-padelcity {
+  padding: 16px 20px 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-padelcity-immagine-contenitore {
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Griglia "Quali campionati?": stesso layout a griglia usato da Palavillage
+   (vedi .griglia-giorni-palavillage) - duplicata invece di condivisa per
+   tenere i due circoli disaccoppiati anche nel CSS, coerente col resto. */
+.griglia-giorni-padelcity {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 10px;
+  max-width: 420px;
+}
+
+.griglia-giorni-padelcity .scelta-opzione {
+  min-width: 0;
+}
+
+.griglia-giorni-padelcity .scelta-opzione label {
+  padding: 16px 10px;
+  font-size: 15px;
+}
+
+.griglia-giorni-padelcity .scelta-opzione .orario-giorno {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: #777;
+  margin-top: 3px;
+}
+
+.griglia-giorni-padelcity .scelta-opzione input:checked + label .orario-giorno {
+  color: #1d4ed8;
+}
+
+@media (max-width: 480px) {
+  .griglia-giorni-padelcity { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+}
