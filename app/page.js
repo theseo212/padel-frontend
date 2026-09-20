@@ -401,46 +401,7 @@ export default function Pagina() {
 
   return (
     <>
-      {/* ===================================================================
-          INIZIO POP-UP "SITO IN FASE DI TEST"
-          Per RIMUOVERLA in futuro: cancella questo intero blocco, dalla
-          riga di apertura del commento fino alla riga "FINE POP-UP" più
-          sotto - non serve toccare nient'altro nel resto del file.
-      ==================================================================== */}
-      {mostraAvvisoTest && (
-        <div
-          style={{
-            position: 'fixed', inset: 0, background: 'rgba(27, 58, 99, 0.55)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            zIndex: 1000, padding: '20px',
-          }}
-        >
-          <div
-            style={{
-              background: 'white', borderRadius: '16px', padding: '28px',
-              maxWidth: '420px', width: '100%', boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
-              textAlign: 'center',
-            }}
-          >
-            <div style={{ fontSize: '36px', marginBottom: '8px' }}>🛫</div>
-            <h2 style={{ fontFamily: 'var(--font-titoli)', color: 'var(--colore-primario)', fontSize: '19px', margin: '0 0 10px' }}>
-              Sito in fase di decollo!!
-            </h2>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.5, margin: '0 0 20px' }}>
-              Anna inizierà a lavorare per te da LUNEDI 21/09. Puoi inserire le tue disponibilità per giocare già da ora però!!! </p>
-            <button
-              onClick={() => setMostraAvvisoTest(false)}
-              className="bottone-primario"
-              style={{ margin: 0 }}
-            >
-              Ho capito, continua
-            </button>
-          </div>
-        </div>
-      )}
-      {/* ===================================================================
-          FINE POP-UP "SITO IN FASE DI TEST"
-      ==================================================================== */}
+
 
       <section className="hero-anna">
         <div className="hero-contenuto">
@@ -659,10 +620,7 @@ export default function Pagina() {
 
           <div className="campo">
             <label htmlFor="giorno">Giorno in cui vuoi giocare</label>
-            {/* PROMEMORIA: dal 21/9/2026 in poi togliere l'attributo "min"
-                qui sotto (o lasciarlo vuoto) - serviva solo come limite
-                temporaneo, per non far scegliere giorni prima di allora. */}
-            <input id="giorno" type="date" min="2026-09-21" value={giorno} onChange={(e) => setGiorno(e.target.value)} />
+            <input id="giorno" type="date" value={giorno} onChange={(e) => setGiorno(e.target.value)} />
             <p className="testo-piccolo">Un solo giorno per richiesta. Per un altro giorno, invia una richiesta separata.</p>
           </div>
 
