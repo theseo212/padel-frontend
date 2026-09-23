@@ -221,7 +221,7 @@ export default function Pagina() {
       giorno,
       fasce_orarie: fasceFormattate,
       circoli_ids: circoliSelezionati,
-      numero_compagno: numeroCompagno.trim() || null,
+      numero_compagno: numeroCompagno.trim() ? `+39${soloNumeri(numeroCompagno)}` : null,
       accetta_termini: accettaTermini,
       accetta_privacy: accettaPrivacy,
     };
@@ -237,7 +237,7 @@ export default function Pagina() {
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
     if (numeroCompagno.trim() && soloNumeri(numeroCompagno).length < 9) {
-      return 'Il numero del tuo compagno non sembra valido (usa il formato internazionale, es. +393331234567).';
+      return 'Il numero del tuo compagno non sembra valido (scrivi solo il numero, senza +39).';
     }
     if (tipiPartita.length === 0) return 'Scegli almeno un tipo di partita.';
     if (!giorno) return 'Scegli il giorno in cui vuoi giocare.';
@@ -647,13 +647,16 @@ export default function Pagina() {
 
           <div className="campo">
             <label htmlFor="numero-compagno">Hai già il compagno di gioco?</label>
-            <input
-              id="numero-compagno"
-              type="tel"
-              placeholder="Numero del tuo compagno, es. +393331234567 (lascia vuoto se non ce l'hai)"
-              value={numeroCompagno}
-              onChange={(e) => setNumeroCompagno(e.target.value)}
-            />
+            <div className="campo-con-prefisso">
+              <span className="prefisso-whatsapp">+39</span>
+              <input
+                id="numero-compagno"
+                type="tel"
+                placeholder="Numero del tuo compagno, es. 333 1234567 (lascia vuoto se non ce l'hai)"
+                value={numeroCompagno}
+                onChange={(e) => setNumeroCompagno(e.target.value)}
+              />
+            </div>
             <p className="testo-piccolo">
               Il tuo compagno deve aver già usato AnnaPadel almeno una volta. Gli manderò un messaggio
               WhatsApp per farsi confermare - la richiesta parte solo dopo la sua conferma.
