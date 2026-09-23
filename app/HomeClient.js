@@ -49,6 +49,7 @@ export default function Pagina() {
 
   // --- dati della richiesta specifica ---
   const [tipiPartita, setTipiPartita] = useState(['MASCHILE']);
+  const [numeroCompagno, setNumeroCompagno] = useState('');
 
   // Selezione multipla: un utente può accettare più di un tipo partita
   // (es. "Maschile o Mista") - aggiunge/rimuove dalla lista al click,
@@ -220,6 +221,7 @@ export default function Pagina() {
       giorno,
       fasce_orarie: fasceFormattate,
       circoli_ids: circoliSelezionati,
+      numero_compagno: numeroCompagno.trim() || null,
       accetta_termini: accettaTermini,
       accetta_privacy: accettaPrivacy,
     };
@@ -234,6 +236,9 @@ export default function Pagina() {
       }
     }
     if (soloNumeri(whatsappLocale).length < 9) return 'Inserisci un numero WhatsApp valido.';
+    if (numeroCompagno.trim() && soloNumeri(numeroCompagno).length < 9) {
+      return 'Il numero del tuo compagno non sembra valido (usa il formato internazionale, es. +393331234567).';
+    }
     if (tipiPartita.length === 0) return 'Scegli almeno un tipo di partita.';
     if (!giorno) return 'Scegli il giorno in cui vuoi giocare.';
     if (fasceOrarie.length === 0) return 'Inserisci almeno una fascia oraria.';
@@ -339,6 +344,28 @@ export default function Pagina() {
       ? new Date(`${giorno}T00:00:00`).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
       : giorno;
     const latoLabel = { DX: 'destra', SX: 'sinistra', INDIFFERENTE: 'indifferente' }[latoPreferito] || latoPreferito;
+    const inAttesaCompagno = numeroCompagno.trim() !== '';
+
+    if (inAttesaCompagno) {
+      return (
+        <main className="pagina">
+          <div className="sezione">
+            <p className="messaggio-successo">✅ Richiesta in attesa di conferma!</p>
+            <div className="riepilogo-richiesta">
+              <p>
+                Ho chiesto conferma al tuo compagno di gioco su WhatsApp per la partita{' '}
+                <strong>{tipoPartitaLabel}</strong> del giorno <strong>{giornoLeggibile}</strong>,
+                dalle <strong>{fasceLeggibili}</strong>, nei circoli: <strong>{nomiCircoliScelti.join(', ')}</strong>.
+              </p>
+              <p>
+                La ricerca degli altri 2 compagni inizierà solo dopo che lui/lei avrà confermato -
+                se rifiuta, questa richiesta viene annullata e te lo farò sapere subito su WhatsApp.
+              </p>
+            </div>
+          </div>
+        </main>
+      );
+    }
 
     return (
       <main className="pagina">
@@ -616,6 +643,21 @@ export default function Pagina() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="campo">
+            <label htmlFor="numero-compagno">Hai già il compagno di gioco?</label>
+            <input
+              id="numero-compagno"
+              type="tel"
+              placeholder="Numero del tuo compagno, es. +393331234567 (lascia vuoto se non ce l'hai)"
+              value={numeroCompagno}
+              onChange={(e) => setNumeroCompagno(e.target.value)}
+            />
+            <p className="testo-piccolo">
+              Il tuo compagno deve aver già usato AnnaPadel almeno una volta. Gli manderò un messaggio
+              WhatsApp per farsi confermare - la richiesta parte solo dopo la sua conferma.
+            </p>
           </div>
 
           <div className="campo">
