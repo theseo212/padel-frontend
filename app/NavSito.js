@@ -6,11 +6,10 @@ export default function NavSito() {
   const pathname = usePathname();
   const inPalavillage = pathname?.startsWith('/palavillage');
   const inPadelcity = pathname?.startsWith('/padelcity');
-  const inBrangi = pathname?.startsWith('/brangi');
-  const inBunker = pathname?.startsWith('/bunker');
+  const inBrangi = pathname?.startsWith('/brangis');
 
-  const linkHome = inPalavillage ? '/palavillage' : inPadelcity ? '/padelcity' : inBrangi ? '/brangi' : inBunker ? '/bunker' : '/';
-  const linkFaq = inPalavillage ? '/palavillage/faq' : inPadelcity ? '/padelcity/faq' : inBrangi ? '/brangi/faq' : inBunker ? '/bunker/faq' : '/faq';
+  const linkHome = inPalavillage ? '/palavillage' : inPadelcity ? '/padelcity' : inBrangi ? '/brangis' : '/';
+  const linkFaq = inPalavillage ? '/palavillage/faq' : inPadelcity ? '/padelcity/faq' : inBrangi ? '/brangis/faq' : '/faq';
 
   return (
     <nav className="nav-sito">
