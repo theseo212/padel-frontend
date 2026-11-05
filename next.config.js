@@ -17,6 +17,17 @@ console.log('=== FINE DIAGNOSTICA ===');
 const nextConfig = {
   reactStrictMode: true,
 
+  // Il circolo Brangi si chiama ora "Brangis": la pagina vive su /brangis,
+  // e il vecchio indirizzo /brangi (e le sue sottopagine) rimanda lì in
+  // modo permanente, così i link già condivisi continuano a funzionare.
+  // Le chiamate al backend (/api/brangi/...) NON cambiano.
+  async redirects() {
+    return [
+      { source: '/brangi', destination: '/brangis', permanent: true },
+      { source: '/brangi/:path*', destination: '/brangis/:path*', permanent: true },
+    ];
+  },
+
   async rewrites() {
     const backendUrl = process.env.PADEL_BACKEND_URL || BACKEND_URL_DI_RISERVA;
     return [
