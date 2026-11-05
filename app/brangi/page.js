@@ -262,7 +262,7 @@ export default function PaginaBrangi() {
           <p className="messaggio-successo">✅ Iscrizione inviata con successo!</p>
           <div className="riepilogo-richiesta">
             <p>
-              Hai scelto di giocare i campionati settimanali di <strong>Brangi</strong>:{' '}
+              Hai scelto di giocare i campionati settimanali di <strong>Brangis</strong>:{' '}
               <strong>{campionatiLeggibili}</strong>, lato <strong>{latoLabel}</strong>,
               livello compatibile con <strong>{livelloValore}</strong>.
             </p>
@@ -332,9 +332,9 @@ export default function PaginaBrangi() {
       <div className="intestazione">
         <h1>
           <img src="/racchetta-icona.svg" alt="" width="24" height="24" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
-          AnnaPadel per Brangi
+          AnnaPadel per Brangis
         </h1>
-        <p>Ciao sono Anna! Dimmi quando vuoi giocare e gestirò le tue iscrizioni ai campionati settimanali Brangi, avvisandoti su WhatsApp.</p>
+        <p>Ciao sono Anna! Dimmi quando vuoi giocare e gestirò le tue iscrizioni ai campionati settimanali Brangis, avvisandoti su WhatsApp.</p>
       </div>
 
       {errore && <p className="messaggio-errore">{errore}</p>}
@@ -371,7 +371,7 @@ export default function PaginaBrangi() {
             {trovatoNelGenerico && !profilo && (
               <p className="profilo-riconosciuto">
                 👋 Ti conosco già, {nome}! Ho recuperato i tuoi dati da AnnaPadel: ti manca solo
-                scegliere lato di gioco e campionati qui sotto per completare l'iscrizione a Brangi.
+                scegliere lato di gioco e campionati qui sotto per completare l'iscrizione a Brangis.
               </p>
             )}
           </div>
