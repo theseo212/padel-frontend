@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Privacy Policy - Brangi',
+  title: 'Privacy Policy - Brangis',
 };
 
 export default function PrivacyPolicy() {

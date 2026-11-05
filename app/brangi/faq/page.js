@@ -1,5 +1,5 @@
 ﻿export const metadata = {
-  title: 'Domande frequenti - Brangi',
+  title: 'Domande frequenti - Brangis',
 };
 
 const FAQ = [

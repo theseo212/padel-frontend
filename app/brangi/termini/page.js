@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Termini e Condizioni - Brangi',
+  title: 'Termini e Condizioni - Brangis',
 };
 
 export default function TerminiECondizioni() {
